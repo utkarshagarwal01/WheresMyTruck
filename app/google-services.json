@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "947973328544",
+    "project_id": "wheres-my-truck-367918",
+    "storage_bucket": "wheres-my-truck-367918.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:947973328544:android:fee366c0743590cabe43c5",
+        "android_client_info": {
+          "package_name": "edu.illinois.cs465.wheresmytruck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "947973328544-venoianbciig65443kltksr7h56atook.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5TnlqXh4EGEXwXlboACKt4X_o5jxE0Uc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "947973328544-venoianbciig65443kltksr7h56atook.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
