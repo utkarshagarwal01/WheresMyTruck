@@ -1,0 +1,87 @@
+##### standard API response structure
+
+`data` field varies for different APIs
+
+{
+
+​	status: ok,
+
+​	data: data,
+
+}
+
+
+
+##### api/trucks
+
+###### returns an array of all trucks, for the truck search & filter page
+
+[
+
+​	{
+
+​		truckId: 0,
+
+​		truckName: "Burrito King",
+
+​		longitude: 12345,  // to calculate distance to the user on the front-end
+
+​		latitude: 67890,
+
+​		locConf: 8.5,  // location confidence, for the dashboard icon animation
+
+​		lastSeen: 1232454,  // integer time code, to calculate "last seen 5min ago"
+
+​	},
+
+​	{
+
+​		truckId: 1,
+
+​		truckName: "Burrito Queen",
+
+​		longitude: 12345,  // to calculate distance to the user on the front-end
+
+​		latitude: 67890,
+
+​		locConf: 8.5,  // location confidence, for the dashboard icon animation
+
+​		lastSeen: 1232454,  // integer time code, to calculate "last seen 5min ago"
+
+​	},
+
+]
+
+
+
+##### api/truck?id=0
+
+###### specific details for one truck, called when user clicks on a truck
+
+{
+
+​	truckId: 0,
+
+​	truckName: Burrito King,
+
+​	longitude: 12345,
+
+​	latitude: 67890,
+
+​	locConf: 8.5,
+
+​	lastSeen: 1232454,
+
+​	truckPics: ["truck1.jpg", "truck2.jpg"],
+
+​	foodPics: ["food1.jpg", "food2.jpg"],
+
+​	userReports: [  // include whoever reported at this location and the details for these reports
+
+​		{reportId: 2, userId: 3, ...},
+
+​		{reportId: 3, userId: 5, ...}
+
+​	]
+
+}
