@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">WheresMyTruck</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="login_label">Login:</string>
+    <string name="username_label">Username or Email:</string>
+    <string name="username_hint">Name…</string>
+    <string name="password_label">Password:</string>
+    <string name="password_hint">Password…</string>
 </resources>
