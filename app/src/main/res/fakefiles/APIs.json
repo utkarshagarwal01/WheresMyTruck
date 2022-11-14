@@ -1,0 +1,73 @@
+{
+  "_comment": "standard API response structure",
+  "api/trucks": {
+    "_comment": "GET an array of all trucks, for the home page and truck search page",
+    "status": "ok",
+    "data": [
+      {
+        "truckId": 0,
+        "truckName": "Burrito King",
+        "longitude": 12345,
+        "latitude": 67890,
+        "locConf": 8.5,
+        "lastSeen": 1232454
+      },
+      {
+        "truckId": 1,
+        "truckName": "Burrito Queen",
+        "longitude": 12345,
+        "latitude": 67890,
+        "locConf": 8.5,
+        "lastSeen": 1232454
+      }
+    ]
+  },
+  "api/getTruck?id=0": {
+    "_comment": "GET specifics for one truck, for the truck details page",
+    "status": "ok",
+    "data": {
+      "truckId": 0,
+      "truckName": "Burrito King",
+      "longitude": 12345,
+      "latitude": 67890,
+      "rating": 4.0,
+      "locConf": 8.5,
+      "lastSeen": 1232454,
+      "truckPics": [
+        "truck1.jpg",
+        "truck2.jpg"
+      ],
+      "foodPics": [
+        "food1.jpg",
+        "food2.jpg"
+      ],
+      "menuPics": [
+        "menu1.jpg"
+      ],
+      "userReports": [
+        {
+          "reportId": 2,
+          "userId": 3
+        },
+        {
+          "reportId": 3,
+          "userId": 5
+        }
+      ]
+    }
+  },
+  "api/login": {
+    "_comment": "POST login credentials, for the login page",
+    "status": "ok",
+    "data": {
+      "userId": "abcd",
+      "userName": "Illini1867",
+      "userEmail": "illini@illinois.edu",
+      "submittedPics": [
+        "truck2.jpg",
+        "food1.jpg",
+        "menu1.jpg"
+      ]
+    }
+  }
+}
