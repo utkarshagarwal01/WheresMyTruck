@@ -20,14 +20,14 @@
             android:layout_height="wrap_content" android:layout_width="match_parent"
             android:text="Name of the truck"/>
         <EditText
-            android:id="@+id/txt_add_truck_name"
+            android:id="@+id/et_add_truck_name"
             android:layout_height="wrap_content" android:layout_width="match_parent"
             android:autofillHints=""
             android:inputType="text" />
         <TextView
             android:layout_height="wrap_content" android:layout_width="match_parent"
             android:text="Picture of the truck"/>
-        <ImageButton
+        <Button
             android:id="@+id/btn_add_truck_pic"
             android:layout_height="100dp" android:layout_width="match_parent"
             android:contentDescription="Take a picture of the truck."/>
@@ -42,7 +42,6 @@
             android:id="@+id/btn_submit_report_truck"
             style="@style/ButtonMain"
             android:src="@drawable/ic_baseline_done_24"
-            android:background="@drawable/circle_button_bg"
             android:layout_gravity="right"
             android:contentDescription="Submit" />
     </LinearLayout>
