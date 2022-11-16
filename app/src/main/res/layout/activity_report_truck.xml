@@ -7,15 +7,15 @@
     tools:context=".ReportTruckActivity">
 
     <LinearLayout
-        android:layout_height="match_parent" android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:padding="30dp">
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        style="@style/LayoutStandardSlideUp">
         <ImageButton
             android:id="@+id/btn_close_report_truck"
-            android:layout_height="wrap_content" android:layout_width="wrap_content"
+            style="@style/ButtonMain"
             android:src="@drawable/ic_baseline_close_24"
-            android:background="@drawable/circle_button_bg"
-            android:layout_gravity="right"/>
+            android:layout_gravity="right"
+            android:contentDescription="Close" />
         <TextView
             android:layout_height="wrap_content" android:layout_width="match_parent"
             android:text="Name of the truck"/>
@@ -38,6 +38,13 @@
             android:id="@+id/btn_add_truck_loc"
             android:layout_height="wrap_content" android:layout_width="match_parent"
             android:text="+ Add Location"/>
+        <ImageButton
+            android:id="@+id/btn_submit_report_truck"
+            style="@style/ButtonMain"
+            android:src="@drawable/ic_baseline_done_24"
+            android:background="@drawable/circle_button_bg"
+            android:layout_gravity="right"
+            android:contentDescription="Submit" />
     </LinearLayout>
 
 
