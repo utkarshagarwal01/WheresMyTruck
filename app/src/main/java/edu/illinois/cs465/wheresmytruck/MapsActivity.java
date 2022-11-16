@@ -3,6 +3,7 @@ package edu.illinois.cs465.wheresmytruck;
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,17 +12,25 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 import edu.illinois.cs465.wheresmytruck.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+    private final String TAG = "MapsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -43,10 +52,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        try {
+            addTruckMarkers();
+        } catch (Exception e) {
+            Log.e(TAG, "Exception in adding truck markers: " + e);
+        }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // Move the camera to Champaign
+        LatLng champaign = new LatLng(40.1102396, -88.2343178);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(champaign, 12));
+    }
+
+    public JSONObject readJSONFile(String path) {
+        String text = "";
+        try {
+            InputStream is = getAssets().open("APIs.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            text = new String(buffer);
+            Log.v(TAG, "JSON object read: \n" + text);
+        } catch (IOException e) {
+            Log.e(TAG, "IOException in JSON read: " + e);
+        }
+        JSONObject jo = null;
+        try {
+            JSONTokener tokener = new JSONTokener(text);
+            jo = new JSONObject(tokener);
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON tokener Exception: " + e);
+        }
+        return jo;
+    }
+
+    public void addMarker(double lat, double lon, String title) {
+        LatLng truckLocation = new LatLng(lat, lon);
+        mMap.addMarker(new MarkerOptions().position(truckLocation).title(title));
+    }
+
+
+    public void addTruckMarkers() throws Exception {
+        JSONObject jo = readJSONFile("APIs.json");
+        JSONObject trucksAPI = (JSONObject) jo.get("api/trucks");
+        JSONArray trucksData = (JSONArray) trucksAPI.get("data");
+        for (int i = 0; i < trucksData.length(); i++) {
+            JSONObject truck = trucksData.getJSONObject(i);
+            addMarker((double) truck.get("latitude"), (double) truck.get("longitude"), (String) truck.get("truckName"));
+        }
     }
 }

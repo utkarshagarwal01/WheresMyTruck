@@ -7,16 +7,16 @@
       {
         "truckId": 0,
         "truckName": "Burrito King",
-        "longitude": 12345,
-        "latitude": 67890,
+        "longitude": -88.2276674,
+        "latitude": 40.1127105,
         "locConf": 8.5,
         "lastSeen": 1232454
       },
       {
         "truckId": 1,
-        "truckName": "Burrito Queen",
-        "longitude": 12345,
-        "latitude": 67890,
+        "truckName": "Fernando's",
+        "longitude": -88.2288938,
+        "latitude": 40.1099063,
         "locConf": 8.5,
         "lastSeen": 1232454
       }
@@ -28,8 +28,8 @@
     "data": {
       "truckId": 0,
       "truckName": "Burrito King",
-      "longitude": 12345,
-      "latitude": 67890,
+      "longitude": -88.2276674,
+      "latitude": 40.1127105,
       "rating": 4.0,
       "locConf": 8.5,
       "lastSeen": 1232454,
