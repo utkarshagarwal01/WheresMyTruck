@@ -12,7 +12,7 @@
         style="@style/LayoutStandardSlideUp">
         <ImageButton
             android:id="@+id/btn_close_report_truck"
-            style="@style/ButtonMain"
+            style="@style/FABMain"
             android:src="@drawable/ic_baseline_close_24"
             android:layout_gravity="right"
             android:contentDescription="Close" />
@@ -30,7 +30,7 @@
         <Button
             android:id="@+id/btn_add_truck_pic"
             android:layout_height="100dp" android:layout_width="match_parent"
-            android:contentDescription="Take a picture of the truck."/>
+            android:text="Upload a picture"/>
         <TextView
             android:layout_height="wrap_content" android:layout_width="match_parent"
             android:text="Location"/>
@@ -40,7 +40,7 @@
             android:text="+ Add Location"/>
         <ImageButton
             android:id="@+id/btn_submit_report_truck"
-            style="@style/ButtonMain"
+            style="@style/FABMain"
             android:src="@drawable/ic_baseline_done_24"
             android:layout_gravity="right"
             android:contentDescription="Submit" />

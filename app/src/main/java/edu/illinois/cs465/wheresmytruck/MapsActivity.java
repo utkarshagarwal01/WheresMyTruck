@@ -2,8 +2,10 @@ package edu.illinois.cs465.wheresmytruck;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,6 +13,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,12 +24,14 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import edu.illinois.cs465.wheresmytruck.databinding.ActivityMapsBinding;
+import edu.illinois.cs465.wheresmytruck.databinding.ActivityReportTruckBinding;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private final String TAG = "MapsActivity";
+    FloatingActionButton fabReportTruck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        fabReportTruck = (FloatingActionButton) findViewById(R.id.btn_report_truck);
+        fabReportTruck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivityReportTruck();
+            }
+        });
+    }
+
+    public void openActivityReportTruck() {
+        Intent intent = new Intent(this, ReportTruckActivity.class);
+        startActivity(intent);
     }
 
     /**
