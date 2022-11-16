@@ -25,6 +25,7 @@ public class SearchActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.ListView);
         searchView = (SearchView) findViewById(R.id.SearchView);
 
+        trucks = new ArrayList<>();
         trucks.add("Mo's Burritos");
         trucks.add("Fernando's");
         trucks.add("Burrito King");
@@ -49,6 +50,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
                 return false;
             }
         });
