@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReportTruckActivity">
+
+    <LinearLayout
+        android:layout_height="match_parent" android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="30dp">
+        <ImageButton
+            android:id="@+id/btn_close_report_truck"
+            android:layout_height="wrap_content" android:layout_width="wrap_content"
+            android:src="@drawable/ic_baseline_close_24"
+            android:background="@drawable/circle_button_bg"
+            android:layout_gravity="right"/>
+        <TextView
+            android:layout_height="wrap_content" android:layout_width="match_parent"
+            android:text="Name of the truck"/>
+        <EditText
+            android:id="@+id/txt_add_truck_name"
+            android:layout_height="wrap_content" android:layout_width="match_parent"
+            android:autofillHints=""
+            android:inputType="text" />
+        <TextView
+            android:layout_height="wrap_content" android:layout_width="match_parent"
+            android:text="Picture of the truck"/>
+        <ImageButton
+            android:id="@+id/btn_add_truck_pic"
+            android:layout_height="100dp" android:layout_width="match_parent"
+            android:contentDescription="Take a picture of the truck."/>
+        <TextView
+            android:layout_height="wrap_content" android:layout_width="match_parent"
+            android:text="Location"/>
+        <Button
+            android:id="@+id/btn_add_truck_loc"
+            android:layout_height="wrap_content" android:layout_width="match_parent"
+            android:text="+ Add Location"/>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
