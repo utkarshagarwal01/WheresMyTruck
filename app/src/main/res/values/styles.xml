@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="FABMain">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="fabCustomSize">50dp</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:layout_margin">15dp</item>
+<!--        <item name="android:background">@drawable/circle_button_bg</item>-->
+    </style>
+    <style name="LayoutStandardSlideUp">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">30dp</item>
+    </style>
+</resources>
