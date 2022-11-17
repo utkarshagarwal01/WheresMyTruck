@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import edu.illinois.cs465.wheresmytruck.databinding.ActivityMapsBinding;
-import edu.illinois.cs465.wheresmytruck.databinding.ActivityReportTruckBinding;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -45,15 +44,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         fabReportTruck = (FloatingActionButton) findViewById(R.id.btn_report_truck);
-        fabReportTruck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openActivityReportTruck();
-            }
-        });
+        fabReportTruck.setOnClickListener(this::openActivityReportTruck);
     }
 
-    public void openActivityReportTruck() {
+    public void openActivityReportTruck(View view) {
         Intent intent = new Intent(this, ReportTruckActivity.class);
         startActivity(intent);
     }

@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         style="@style/LayoutStandardSlideUp">
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_close_report_truck"
             style="@style/FABMain"
             android:src="@drawable/ic_baseline_close_24"
@@ -38,7 +38,7 @@
             android:id="@+id/btn_add_truck_loc"
             android:layout_height="wrap_content" android:layout_width="match_parent"
             android:text="+ Add Location"/>
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_submit_report_truck"
             style="@style/FABMain"
             android:src="@drawable/ic_baseline_done_24"
