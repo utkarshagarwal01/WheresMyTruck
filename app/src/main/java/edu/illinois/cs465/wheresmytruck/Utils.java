@@ -35,15 +35,15 @@ public class Utils {
         }
         JSONObject jo = null;
         try {
-            JSONTokener tokener = new JSONTokener(text);
-            jo = new JSONObject(tokener);
-        } catch (JSONException e) {
+            JSONTokener token = new JSONTokener(text);
+            jo = new JSONObject(token);
+        } catch (Exception e) {
             Log.e(TAG, "JSON tokener Exception: " + e);
         }
         return jo;
     }
 
-    private static void writeJSONToContext(Context context, String path, String TAG, JSONObject jo) {
+    public static void writeJSONToContext(Context context, String path, String TAG, JSONObject jo) {
         try (PrintWriter pw = new PrintWriter(context.openFileOutput(path, Context.MODE_PRIVATE))) {
             pw.write(jo.toString());
             Log.v(TAG, "JSON object written: \n" + jo.toString());

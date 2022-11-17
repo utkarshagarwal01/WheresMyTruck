@@ -35,9 +35,11 @@ import edu.illinois.cs465.wheresmytruck.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private Context context;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private final String TAG = "MapsActivity";
+    private final String mainAPIJSONFile = "APIs.json";
     FloatingActionButton fabReportTruck;
     FloatingActionButton fabProfile;
 
@@ -71,6 +73,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnSearchIcon.setOnClickListener(this::openActivitySearchTruck);
         btnSearchText = (TextView) findViewById(R.id.btn_search_text);
         btnSearchText.setOnClickListener(this::openActivitySearchTruck);
+
+        context = getApplicationContext();
+        JSONObject jo = Utils.readJSON(context, mainAPIJSONFile, TAG, true);
+        Utils.writeJSONToContext(context, mainAPIJSONFile, TAG, jo);
     }
 
     public void truckPicTest(View view) {
@@ -145,7 +151,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     public void addTruckMarkers() throws Exception {
-        JSONObject jo = Utils.readJSON(getApplicationContext(), TAG, "APIs.json", true);
+        JSONObject jo = Utils.readJSON(context, mainAPIJSONFile, TAG);
         JSONObject trucksAPI = (JSONObject) jo.get("api/trucks");
         JSONArray trucksData = (JSONArray) trucksAPI.get("data");
         for (int i = 0; i < trucksData.length(); i++) {
