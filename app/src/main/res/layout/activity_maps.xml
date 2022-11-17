@@ -23,5 +23,32 @@
             android:layout_gravity="right|top"
             android:src="@drawable/ic_baseline_person_24"
             android:contentDescription="My profile" />
+        <LinearLayout
+            android:layout_height="50dp" android:layout_width="wrap_content"
+            android:layout_margin="15dp"
+            android:orientation="horizontal"
+            android:layout_gravity="left|bottom"
+            android:background="@color/teal_200">
+<!--                todo rounded corner, refactoring-->
+                <ImageView
+                    android:id="@+id/btn_search_icon"
+                    android:layout_width="50dp" android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_baseline_local_shipping_24"
+                    android:contentDescription="Search..." />
+                <View
+                    android:layout_width="1dp" android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@android:color/black"/>
+                <TextView
+                    android:id="@+id/btn_search_text"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:text="Search..."
+                    android:textSize="30dp"/>
+        </LinearLayout>
 </FrameLayout>
-

@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +35,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final String TAG = "MapsActivity";
     FloatingActionButton fabReportTruck;
     FloatingActionButton fabProfile;
+    ImageView btnSearchIcon;
+    TextView btnSearchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fabReportTruck.setOnClickListener(this::openActivityReportTruck);
         fabProfile = (FloatingActionButton) findViewById(R.id.btn_profile);
         fabProfile.setOnClickListener(this::openActivityProfile);
+        btnSearchIcon = (ImageView) findViewById(R.id.btn_search_icon);
+        btnSearchIcon.setOnClickListener(this::openActivitySearchTruck);
+        btnSearchText = (TextView) findViewById(R.id.btn_search_text);
+        btnSearchText.setOnClickListener(this::openActivitySearchTruck);
+    }
+
+    public void openActivitySearchTruck(View view) {
+//        Intent intent = new Intent(this, SearchTruckActivity.class);
+//        Bundle b = new Bundle();  // pass param to another activity
+//        if (view == btnSearchIcon) {  // show all trucks
+//            b.putInt("mode", 1);
+//        } else if (view == btnSearchText) {  // show all trucks & pop up keyboard for typing
+//            b.putInt("mode", 2);
+//        }
+//        intent.putExtras(b);
+//        startActivity(intent);
+
+        // how to use in another activity:
+        // Bundle b = getIntent().getExtras();
+        // int searchMode = 0;
+        // if (b != null) {
+        //     searchMode = b.getInt("key");
+        // }
     }
 
     public void openActivityReportTruck(View view) {
