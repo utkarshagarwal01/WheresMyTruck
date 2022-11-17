@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--todo add a button above maps to switch to RTActivity-->
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -20,5 +17,11 @@
             android:layout_gravity="right|bottom"
             android:src="@drawable/ic_baseline_add_24"
             android:contentDescription="Report a new truck location" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_profile"
+            style="@style/FABMain"
+            android:layout_gravity="right|top"
+            android:src="@drawable/ic_baseline_person_24"
+            android:contentDescription="My profile" />
 </FrameLayout>
 

@@ -32,6 +32,8 @@ public class ReportTruckActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(this::onSubmit);
     }
 
+    // todo upload/take a picture and save to internal storage for now
+
     public void onClose(View v) {
         Log.v(null, "onClose()");
         finish();

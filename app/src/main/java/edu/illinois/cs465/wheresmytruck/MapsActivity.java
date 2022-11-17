@@ -31,6 +31,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
     private final String TAG = "MapsActivity";
     FloatingActionButton fabReportTruck;
+    FloatingActionButton fabProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +46,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         fabReportTruck = (FloatingActionButton) findViewById(R.id.btn_report_truck);
         fabReportTruck.setOnClickListener(this::openActivityReportTruck);
+        fabProfile = (FloatingActionButton) findViewById(R.id.btn_profile);
+        fabProfile.setOnClickListener(this::openActivityProfile);
     }
 
     public void openActivityReportTruck(View view) {
         Intent intent = new Intent(this, ReportTruckActivity.class);
         startActivity(intent);
+    }
+
+    public void openActivityProfile(View view) {
+        // todo
+//        Intent intent = new Intent(this, ProfileActivity.class);
+//        startActivity(intent);
     }
 
     /**

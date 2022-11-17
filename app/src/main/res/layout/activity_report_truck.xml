@@ -18,12 +18,13 @@
             android:contentDescription="Close" />
         <TextView
             android:layout_height="wrap_content" android:layout_width="match_parent"
-            android:text="Name of the truck"/>
+            android:text="Name of the truck"
+            android:labelFor="@+id/et_add_truck_name"/>
         <EditText
             android:id="@+id/et_add_truck_name"
             android:layout_height="wrap_content" android:layout_width="match_parent"
             android:autofillHints=""
-            android:inputType="text" />
+            android:inputType="text"/>
         <TextView
             android:layout_height="wrap_content" android:layout_width="match_parent"
             android:text="Picture of the truck"/>
