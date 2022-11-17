@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".RegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,18 +17,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="32sp"
-            android:text="@string/login_label"
+            android:text="@string/create_account"
             android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/camera_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_add_a_photo_24"
+            android:layout_gravity="center"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="@string/username_label"
+            android:text="@string/username"
             android:layout_marginTop="10dp"/>
 
         <EditText
-            android:id="@+id/username_input"
+            android:id="@+id/register_username_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/username_hint"
@@ -39,31 +46,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:text="@string/email_address"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:id="@+id/register_email_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/example_email"
+            android:inputType="textEmailAddress"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="@string/password_label"
             android:layout_marginTop="10dp"/>
 
         <EditText
-            android:id="@+id/password_input"
+            android:id="@+id/register_password_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
             tools:ignore="TouchTargetSizeCheck" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:text="@string/or"
-            android:layout_marginVertical="10dp"/>
-
         <Button
-            android:id="@+id/go_to_create_account"
+            android:layout_marginTop="40dp"
+            android:id="@+id/register_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/create_an_account"
+            android:text="@string/register_account"
             android:textSize="18sp"/>
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

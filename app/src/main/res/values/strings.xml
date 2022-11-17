@@ -6,4 +6,11 @@
     <string name="username_hint">Name…</string>
     <string name="password_label">Password:</string>
     <string name="password_hint">Password…</string>
+    <string name="or">- or -</string>
+    <string name="create_an_account">Create an Account</string>
+    <string name="username">Username:</string>
+    <string name="example_email">example@email.com</string>
+    <string name="register_account">Register</string>
+    <string name="create_account">Create Account:</string>
+    <string name="email_address">Email Address:</string>
 </resources>
