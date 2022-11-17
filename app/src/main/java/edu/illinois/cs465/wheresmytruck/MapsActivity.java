@@ -2,7 +2,13 @@ package edu.illinois.cs465.wheresmytruck;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -10,6 +16,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import edu.illinois.cs465.wheresmytruck.databinding.ActivityMapsBinding;
 
@@ -17,11 +32,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+    private final String TAG = "MapsActivity";
+    FloatingActionButton fabReportTruck;
+    FloatingActionButton fabProfile;
+    ImageView btnSearchIcon;
+    TextView btnSearchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -29,6 +48,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        fabReportTruck = (FloatingActionButton) findViewById(R.id.btn_report_truck);
+        fabReportTruck.setOnClickListener(this::openActivityReportTruck);
+        fabProfile = (FloatingActionButton) findViewById(R.id.btn_profile);
+        fabProfile.setOnClickListener(this::openActivityProfile);
+        btnSearchIcon = (ImageView) findViewById(R.id.btn_search_icon);
+        btnSearchIcon.setOnClickListener(this::openActivitySearchTruck);
+        btnSearchText = (TextView) findViewById(R.id.btn_search_text);
+        btnSearchText.setOnClickListener(this::openActivitySearchTruck);
+    }
+
+    public void openActivitySearchTruck(View view) {
+//        Intent intent = new Intent(this, SearchTruckActivity.class);
+//        Bundle b = new Bundle();  // pass param to another activity
+//        if (view == btnSearchIcon) {  // show all trucks
+//            b.putInt("mode", 1);
+//        } else if (view == btnSearchText) {  // show all trucks & pop up keyboard for typing
+//            b.putInt("mode", 2);
+//        }
+//        intent.putExtras(b);
+//        startActivity(intent);
+
+        // how to use in another activity:
+        // Bundle b = getIntent().getExtras();
+        // int searchMode = 0;
+        // if (b != null) {
+        //     searchMode = b.getInt("key");
+        // }
+    }
+
+    public void openActivityReportTruck(View view) {
+        Intent intent = new Intent(this, ReportTruckActivity.class);
+        startActivity(intent);
+    }
+
+    public void openActivityProfile(View view) {
+        // todo
+//        Intent intent = new Intent(this, ProfileActivity.class);
+//        startActivity(intent);
     }
 
     /**
@@ -43,10 +101,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        try {
+            addTruckMarkers();
+        } catch (Exception e) {
+            Log.e(TAG, "Exception in adding truck markers: " + e);
+        }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // Move the camera to Champaign
+        LatLng champaign = new LatLng(40.1102396, -88.2343178);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(champaign, 12));
+    }
+
+    public JSONObject readJSONFile(String path) {
+        String text = "";
+        try {
+            InputStream is = getAssets().open("APIs.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            text = new String(buffer);
+            Log.v(TAG, "JSON object read: \n" + text);
+        } catch (IOException e) {
+            Log.e(TAG, "IOException in JSON read: " + e);
+        }
+        JSONObject jo = null;
+        try {
+            JSONTokener tokener = new JSONTokener(text);
+            jo = new JSONObject(tokener);
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON tokener Exception: " + e);
+        }
+        return jo;
+    }
+
+    public void addMarker(double lat, double lon, String title) {
+        LatLng truckLocation = new LatLng(lat, lon);
+        mMap.addMarker(new MarkerOptions().position(truckLocation).title(title));
+    }
+
+
+    public void addTruckMarkers() throws Exception {
+        JSONObject jo = readJSONFile("APIs.json");
+        JSONObject trucksAPI = (JSONObject) jo.get("api/trucks");
+        JSONArray trucksData = (JSONArray) trucksAPI.get("data");
+        for (int i = 0; i < trucksData.length(); i++) {
+            JSONObject truck = trucksData.getJSONObject(i);
+            addMarker((double) truck.get("latitude"), (double) truck.get("longitude"), (String) truck.get("truckName"));
+        }
     }
 }

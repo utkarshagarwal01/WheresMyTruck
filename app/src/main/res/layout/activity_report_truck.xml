@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReportTruckActivity">
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        style="@style/LayoutStandardSlideUp">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_close_report_truck"
+            style="@style/FABMain"
+            android:src="@drawable/ic_baseline_close_24"
+            android:layout_gravity="right"
+            android:contentDescription="Close" />
+        <TextView
+            android:layout_height="wrap_content" android:layout_width="match_parent"
+            android:text="Name of the truck"
+            android:labelFor="@+id/et_add_truck_name"/>
+        <EditText
+            android:id="@+id/et_add_truck_name"
+            android:layout_height="wrap_content" android:layout_width="match_parent"
+            android:autofillHints=""
+            android:inputType="text"/>
+        <TextView
+            android:layout_height="wrap_content" android:layout_width="match_parent"
+            android:text="Picture of the truck"/>
+        <Button
+            android:id="@+id/btn_add_truck_pic"
+            android:layout_height="100dp" android:layout_width="match_parent"
+            android:text="Upload a picture"/>
+        <TextView
+            android:layout_height="wrap_content" android:layout_width="match_parent"
+            android:text="Location"/>
+        <Button
+            android:id="@+id/btn_add_truck_loc"
+            android:layout_height="wrap_content" android:layout_width="match_parent"
+            android:text="+ Add Location"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_submit_report_truck"
+            style="@style/FABMain"
+            android:src="@drawable/ic_baseline_done_24"
+            android:layout_gravity="right"
+            android:contentDescription="Submit" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
