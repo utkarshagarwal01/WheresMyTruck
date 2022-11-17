@@ -33,6 +33,7 @@ public class ReportTruckActivity extends AppCompatActivity {
     Button btnAddPic;
     ImageView ivTruckPic;
     Bitmap bmTruckPic;
+    Button btnAddLoc;
     FloatingActionButton btnClose;
     FloatingActionButton btnSubmit;
     final int CAMERA_PERMISSION_CODE = 1;
@@ -49,6 +50,9 @@ public class ReportTruckActivity extends AppCompatActivity {
         btnAddPic.setOnClickListener(this::openCamera);
 
         ivTruckPic = (ImageView) findViewById(R.id.iv_truck_pic);
+
+        btnAddLoc = (Button) findViewById(R.id.btn_add_truck_loc);
+        btnAddLoc.setOnClickListener(this::openActivityAddLocation);
 
         btnClose = (FloatingActionButton) findViewById(R.id.btn_close_report_truck);
         btnClose.setOnClickListener(this::onClose);
@@ -130,5 +134,10 @@ public class ReportTruckActivity extends AppCompatActivity {
             ivTruckPic.setImageBitmap(bmTruckPic);
             ivTruckPic.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void openActivityAddLocation(View view) {
+        Intent intent = new Intent(this, AddLocationActivity.class);
+        startActivity(intent);
     }
 }

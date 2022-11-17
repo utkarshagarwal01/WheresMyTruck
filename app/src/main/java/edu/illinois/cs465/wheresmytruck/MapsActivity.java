@@ -138,29 +138,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(champaign, 12));
     }
 
-    public JSONObject readJSONFile(String path) {
-        String text = "";
-        try {
-            InputStream is = getAssets().open("APIs.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            text = new String(buffer);
-            Log.v(TAG, "JSON object read: \n" + text);
-        } catch (IOException e) {
-            Log.e(TAG, "IOException in JSON read: " + e);
-        }
-        JSONObject jo = null;
-        try {
-            JSONTokener tokener = new JSONTokener(text);
-            jo = new JSONObject(tokener);
-        } catch (JSONException e) {
-            Log.e(TAG, "JSON tokener Exception: " + e);
-        }
-        return jo;
-    }
-
     public void addMarker(double lat, double lon, String title) {
         LatLng truckLocation = new LatLng(lat, lon);
         mMap.addMarker(new MarkerOptions().position(truckLocation).title(title));
@@ -168,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     public void addTruckMarkers() throws Exception {
-        JSONObject jo = readJSONFile("APIs.json");
+        JSONObject jo = Utils.readJSON(getApplicationContext(), TAG, "APIs.json", true);
         JSONObject trucksAPI = (JSONObject) jo.get("api/trucks");
         JSONArray trucksData = (JSONArray) trucksAPI.get("data");
         for (int i = 0; i < trucksData.length(); i++) {
