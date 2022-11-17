@@ -1,17 +1,11 @@
 package edu.illinois.cs465.wheresmytruck;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Camera;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -21,14 +15,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Arrays;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ReportTruckActivity extends AppCompatActivity {
     EditText etTruckName;
     Button btnAddPic;
     ImageView ivTruckPic;
+    Bitmap bmTruckPic;
     FloatingActionButton btnClose;
     FloatingActionButton btnSubmit;
     final int CAMERA_PERMISSION_CODE = 1;
@@ -53,7 +57,6 @@ public class ReportTruckActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(this::onSubmit);
     }
 
-    // todo upload/take a picture and save to internal storage for now
     // StackOverflow "Capture Image from Camera and Display in Activity"
     public void openCamera(View v) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -62,8 +65,7 @@ public class ReportTruckActivity extends AppCompatActivity {
             startActivityForResult(intent, CAMERA_REQUEST_CODE);  // todo deprecated --> registerForActivityResult()
         } else {
             Log.v(null, "cam perm not granted");
-            ActivityCompat.requestPermissions(
-                    this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
         }
     }
 
@@ -81,24 +83,52 @@ public class ReportTruckActivity extends AppCompatActivity {
     }
 
     public void onClose(View v) {
-        Log.v(null, "onClose()");
         finish();
     }
 
+    // check all fields, save to storage (for now), return to home screen
     public void onSubmit(View v) {
-        Log.v(null, "onSubmit()");
         String truckName = etTruckName.getText().toString();
-        Toast.makeText(getBaseContext(), truckName, Toast.LENGTH_LONG).show();
-        finish();
+        if (truckName.length() <= 0) {
+            Toast.makeText(getBaseContext(), "Name cannot be empty!", Toast.LENGTH_LONG).show();
+        } else if (bmTruckPic == null) {
+            Toast.makeText(getBaseContext(), "A picture is needed!", Toast.LENGTH_LONG).show();
+//        } else if () {
+//            // todo check location input
+//            Toast.makeText(getBaseContext(), "Location is needed!", Toast.LENGTH_LONG).show();
+        } else {
+            // logic:
+            // send submission to BE, BE inserts submission into DB,
+            // next time FE calls api/truck?id=0, BE responds with updated DB,
+            // FE then knows which truck (truckId, truckName) this submission belongs to
+
+            // for now:
+            // pretend this submission is for truckId=0, update APIs.json locally,
+            // so truck details page can show these pics
+            String filename = "truck0pic0.jpg";
+            Context context = getApplicationContext();
+            try (FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE)) {
+                bmTruckPic.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                // todo test write JSON utility function
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(getBaseContext(), "You reported a truck location!", Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 
-    @Override
+    @Override  // took a pic --> display it
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
             assert data != null;
-            Bitmap bmTruckPic = (Bitmap) data.getExtras().get("data");
+            bmTruckPic = (Bitmap) data.getExtras().get("data");
+            btnAddPic.setVisibility(View.GONE);
             ivTruckPic.setImageBitmap(bmTruckPic);
+            ivTruckPic.setVisibility(View.VISIBLE);
         }
     }
 }

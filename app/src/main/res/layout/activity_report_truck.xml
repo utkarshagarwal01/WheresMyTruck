@@ -35,7 +35,8 @@
         <ImageView
             android:id="@+id/iv_truck_pic"
             android:layout_height="100dp" android:layout_width="match_parent"
-            android:contentDescription="Truck picture to upload" />
+            android:contentDescription="Truck picture to upload"
+            android:visibility="gone"/>
         <TextView
             android:layout_height="wrap_content" android:layout_width="match_parent"
             android:text="Location"/>

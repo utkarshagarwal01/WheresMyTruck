@@ -2,7 +2,10 @@ package edu.illinois.cs465.wheresmytruck;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -35,6 +40,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final String TAG = "MapsActivity";
     FloatingActionButton fabReportTruck;
     FloatingActionButton fabProfile;
+
+    FloatingActionButton fabTruckPicTest;  // todo test only, to be removed
+    ImageView ivTruckPicTest;
+
     ImageView btnSearchIcon;
     TextView btnSearchText;
 
@@ -51,12 +60,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         fabReportTruck = (FloatingActionButton) findViewById(R.id.btn_report_truck);
         fabReportTruck.setOnClickListener(this::openActivityReportTruck);
+
+        fabTruckPicTest = (FloatingActionButton) findViewById(R.id.btn_truck_pic_test);
+        fabTruckPicTest.setOnClickListener(this::truckPicTest);
+        ivTruckPicTest = (ImageView) findViewById(R.id.iv_truck_pic_test);
+
         fabProfile = (FloatingActionButton) findViewById(R.id.btn_profile);
         fabProfile.setOnClickListener(this::openActivityProfile);
         btnSearchIcon = (ImageView) findViewById(R.id.btn_search_icon);
         btnSearchIcon.setOnClickListener(this::openActivitySearchTruck);
         btnSearchText = (TextView) findViewById(R.id.btn_search_text);
         btnSearchText.setOnClickListener(this::openActivitySearchTruck);
+    }
+
+    public void truckPicTest(View view) {
+        // todo test read JSON utility function
+
+        String filename = "truck0pic0.jpg";
+        Context context = getApplicationContext();
+        try (FileInputStream fis = context.openFileInput(filename)) {
+            Bitmap bmTruckPicTest = BitmapFactory.decodeStream(fis);
+            ivTruckPicTest.setImageBitmap(bmTruckPicTest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void openActivitySearchTruck(View view) {
@@ -84,7 +111,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void openActivityProfile(View view) {
-        // todo
 //        Intent intent = new Intent(this, ProfileActivity.class);
 //        startActivity(intent);
     }
