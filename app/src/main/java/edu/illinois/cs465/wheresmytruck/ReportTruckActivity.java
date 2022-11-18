@@ -111,14 +111,7 @@ public class ReportTruckActivity extends AppCompatActivity {
             // so truck details page can show these pics
             String filename = "truck0pic0.jpg";
             Context context = getApplicationContext();
-            try (FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE)) {
-                bmTruckPic.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                fos.flush();
-                // todo test write JSON utility function
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Utils.writeImage(context, filename, TAG, bmTruckPic);
             Toast.makeText(getBaseContext(), "You reported a truck location!", Toast.LENGTH_LONG).show();
             finish();
         }

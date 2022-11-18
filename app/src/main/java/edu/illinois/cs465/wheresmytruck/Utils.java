@@ -1,12 +1,16 @@
 package edu.illinois.cs465.wheresmytruck;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -23,7 +27,7 @@ public class Utils {
     private static JSONObject readJSONFileHelper(Context context, String path, String TAG, boolean fromAssets) {
         String text = "";
         try {
-            InputStream is = context.getAssets().open(path);
+            InputStream is = fromAssets? context.getAssets().open(path): context.openFileInput(path);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -50,5 +54,24 @@ public class Utils {
         } catch (IOException e) {
             Log.e(TAG, "IOException in JSON write: " + e);
         }
+    }
+
+    public static void writeImage(Context context, String path, String TAG, Bitmap bmImage) {
+        try (FileOutputStream fos = context.openFileOutput(path, Context.MODE_PRIVATE)) {
+            bmImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+        } catch (IOException e) {
+            Log.v(TAG, "Error in image write: " + e);
+        }
+    }
+
+    public static Bitmap readImage(Context context, String path, String TAG) {
+        Bitmap bmImage = null;
+        try (FileInputStream fis = context.openFileInput(path)) {
+            bmImage = BitmapFactory.decodeStream(fis);
+        } catch (IOException e) {
+             Log.v(TAG, "Error in image read: " + e);
+        }
+        return bmImage;
     }
 }
