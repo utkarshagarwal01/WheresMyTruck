@@ -14,4 +14,6 @@
     <string name="create_account">Create Account:</string>
     <string name="email_address">Email Address:</string>
     <string name="loginButton">Login</string>
+    <string name="search_hint">Mo\'s Burritos…</string>
+    <string name="search_label">Search Label</string>
 </resources>
