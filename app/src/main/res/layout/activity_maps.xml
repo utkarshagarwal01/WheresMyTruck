@@ -15,16 +15,16 @@
             tools:context=".MapsActivity" />
 
 <!--    todo testing, to be removed-->
-        <ImageView
-            android:id="@+id/iv_truck_pic_test"
-            android:layout_width="200dp" android:layout_height="200dp"
-            android:layout_gravity="center"/>
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_truck_pic_test"
-            style="@style/FABMain"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_baseline_arrow_outward_24"
-            android:contentDescription="Test truck pic" />
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_truck_pic_test"-->
+<!--            android:layout_width="200dp" android:layout_height="200dp"-->
+<!--            android:layout_gravity="center"/>-->
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/btn_truck_pic_test"-->
+<!--            style="@style/FABMain"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:src="@drawable/ic_baseline_arrow_outward_24"-->
+<!--            android:contentDescription="Test truck pic" />-->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_report_truck"
