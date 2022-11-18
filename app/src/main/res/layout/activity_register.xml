@@ -6,12 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:padding="30dp"
-        android:orientation="vertical">
+        style="@style/LayoutStandardSlideUp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/close_register"
+            style="@style/FABMain"
+            android:src="@drawable/ic_baseline_close_24"
+            android:layout_gravity="right"
+            android:contentDescription="Close" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,7 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="@string/username"
             android:layout_marginTop="10dp"/>
 
@@ -45,7 +53,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="@string/email_address"
             android:layout_marginTop="10dp"/>
 
@@ -60,7 +68,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="@string/password_label"
             android:layout_marginTop="10dp"/>
 
@@ -80,5 +88,6 @@
             android:text="@string/register_account"
             android:textSize="18sp"/>
     </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

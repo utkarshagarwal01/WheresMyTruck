@@ -9,16 +9,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="50dp"
-        android:padding="20dp">
+        style="@style/LayoutStandardSlideUp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/close_profile"
+            style="@style/FABMain"
+            android:src="@drawable/ic_baseline_close_24"
+            android:layout_gravity="right"
+            android:contentDescription="Close" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="20dp"
-            android:layout_marginVertical="10dp">
+            android:layout_marginBottom="30dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -46,8 +50,8 @@
 
             <ImageView
                 android:id="@+id/profile_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:background="@drawable/ic_baseline_add_a_photo_24"
                 android:layout_marginHorizontal="10dp"/>
 

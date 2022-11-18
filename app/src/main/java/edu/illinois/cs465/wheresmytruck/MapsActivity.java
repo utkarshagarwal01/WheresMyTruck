@@ -1,12 +1,12 @@
 package edu.illinois.cs465.wheresmytruck;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +38,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ImageView btnSearchIcon;
     TextView btnSearchText;
 
+    String userName = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fabReportTruck = (FloatingActionButton) findViewById(R.id.btn_report_truck);
         fabReportTruck.setOnClickListener(this::openActivityReportTruck);
         fabProfile = (FloatingActionButton) findViewById(R.id.btn_profile);
-        fabProfile.setOnClickListener(this::openActivityProfile);
+        fabProfile.setOnClickListener(this::openActivityLogin);
         btnSearchIcon = (ImageView) findViewById(R.id.btn_search_icon);
         btnSearchIcon.setOnClickListener(this::openActivitySearchTruck);
         btnSearchText = (TextView) findViewById(R.id.btn_search_text);
@@ -83,10 +85,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
-    public void openActivityProfile(View view) {
-        // todo
-//        Intent intent = new Intent(this, ProfileActivity.class);
-//        startActivity(intent);
+
+
+    public void openActivityLogin(View view) {
+        if (userName == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, 1);
+        } else {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("username", userName);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK && data != null) {
+                userName = data.getStringExtra("username");
+            }
+        }
     }
 
     /**

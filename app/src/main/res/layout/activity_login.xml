@@ -9,9 +9,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:padding="30dp"
-        android:orientation="vertical">
+        style="@style/LayoutStandardSlideUp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/close_login"
+            style="@style/FABMain"
+            android:src="@drawable/ic_baseline_close_24"
+            android:layout_gravity="right"
+            android:contentDescription="Close" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,7 +28,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="@string/username_label"
             android:layout_marginTop="10dp"/>
 
@@ -38,7 +43,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="@string/password_label"
             android:layout_marginTop="10dp"/>
 
@@ -50,6 +55,13 @@
             android:inputType="textPassword"
             tools:ignore="TouchTargetSizeCheck" />
 
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/loginButton"
+            android:textSize="18sp"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +71,7 @@
             android:layout_marginVertical="10dp"/>
 
         <Button
-            android:id="@+id/go_to_create_account"
+            android:id="@+id/create_account_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/create_an_account"
