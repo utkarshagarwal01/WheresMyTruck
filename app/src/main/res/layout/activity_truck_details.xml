@@ -45,16 +45,14 @@
 
                 <ImageView
                     android:id="@+id/truck_photo"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/truck1"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
 
                 <Button
                     android:id="@+id/right_arrow"
                     android:layout_width="48dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/ic_baseline_keyboard_arrow_right_24" />
+                    android:background="@drawable/ic_baseline_keyboard_arrow_right_24"/>
             </LinearLayout>
 
             <View
@@ -118,6 +116,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="navigate"
+                        android:textSize="12sp"
                         android:drawableRight="@drawable/ic_baseline_arrow_outward_24"/>
 
                 </LinearLayout>
@@ -143,7 +142,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="center">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

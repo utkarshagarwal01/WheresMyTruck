@@ -34,11 +34,7 @@
       "distance": 12.0,
       "locConf": 8.5,
       "lastSeen": 12324,
-      "truckPics": [
-        "truck1.jpg",
-        "truck2.jpg",
-        "truck3.jpg"
-      ],
+      "truckPics": [],
       "foodPics": [
         "food1",
         "food2",

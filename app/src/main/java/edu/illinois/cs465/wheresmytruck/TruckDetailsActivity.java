@@ -113,14 +113,14 @@ public class TruckDetailsActivity extends AppCompatActivity {
     public void onClickLeftArrow(View v) {
         if (imgIndex > 0) {
             imgIndex = imgIndex - 1;
-            truckPhoto.setImageResource(getResources().getIdentifier(truckImages.get(imgIndex), "drawable", getPackageName()));
+            truckPhoto.setImageBitmap(getImageBitmap(truckImages.get(imgIndex)));
             truckPhoto.invalidate();
         }
     }
     public void onClickRightArrow(View v) {
         if (imgIndex < truckImages.size() - 1) {
             imgIndex = imgIndex + 1;
-            truckPhoto.setImageResource(getResources().getIdentifier(truckImages.get(imgIndex), "drawable", getPackageName()));
+            truckPhoto.setImageBitmap(getImageBitmap(truckImages.get(imgIndex)));
             truckPhoto.invalidate();
         }
     }
@@ -165,7 +165,9 @@ public class TruckDetailsActivity extends AppCompatActivity {
         for (int i = 0; i < truckPics.length(); i++) {
             truckImages.add(truckPics.getString(i));
         }
-        truckPhoto.setImageBitmap(getImageBitmap(truckImages.get(0)));
+        if (truckImages.size() > 0) {
+            truckPhoto.setImageBitmap(getImageBitmap(truckImages.get(0)));
+        }
 
         JSONArray menuPics = (JSONArray) data.get("menuPics");
         menuImageList = new ArrayList<>();
@@ -174,7 +176,8 @@ public class TruckDetailsActivity extends AppCompatActivity {
             String img = menuPics.getString(i);
             menuImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
 //            menuImg.setImageBitmap(getImageBitmap(img));  Use this when we implement the ability to submit these
-            menuImg.setLayoutParams(new ViewGroup.LayoutParams(120, 100));
+            menuImg.setScaleType(ImageButton.ScaleType.CENTER_INSIDE);
+            menuImg.setAdjustViewBounds(true);
             menuImages.addView(menuImg);
             menuImageList.add(menuImg);
         }
@@ -184,9 +187,10 @@ public class TruckDetailsActivity extends AppCompatActivity {
         for (int i = 0; i < foodPics.length(); i++) {
             ImageButton foodImg = new ImageButton(this);
             String img = foodPics.getString(i);
-            foodImg.setBackgroundResource(getResources().getIdentifier(img, "drawable", getPackageName()));
+            foodImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
 //            foodImg.setImageBitmap(getImageBitmap(img));  Use this when we implement the ability to submit these
-            foodImg.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+            foodImg.setScaleType(ImageButton.ScaleType.CENTER_INSIDE);
+            foodImg.setAdjustViewBounds(true);
             foodImages.addView(foodImg);
             foodImageList.add(foodImg);
         }

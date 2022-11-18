@@ -83,13 +83,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 //    public void truckPicTest(View view) {
 //        String filename = "truck0pic0.jpg";
-//        Context context = getApplicationContext();
-//        try (FileInputStream fis = context.openFileInput(filename)) {
-//            Bitmap bmTruckPicTest = BitmapFactory.decodeStream(fis);
-//            ivTruckPicTest.setImageBitmap(bmTruckPicTest);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+//        Bitmap bmTruckPicTest = Utils.readImage(context, filename, TAG);
+//        ivTruckPicTest.setImageBitmap(bmTruckPicTest);
 //    }
 
     public void openActivitySearchTruck(View view) {
