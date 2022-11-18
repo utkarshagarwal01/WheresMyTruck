@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -180,7 +181,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.report_error_dialog);
 
-        Button confirm = findViewById(R.id.buttonConfirm);
+        Button confirm = dialog.findViewById(R.id.buttonConfirmDialog);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                openActivityLogin(view);
+            }
+        });
 
         dialog.show();
     }
