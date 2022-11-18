@@ -3,13 +3,13 @@ package edu.illinois.cs465.wheresmytruck;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
-import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -26,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -33,13 +36,17 @@ import edu.illinois.cs465.wheresmytruck.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private Context context;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private final String TAG = "MapsActivity";
+    private final String mainAPIJSONFile = "APIs.json";
     FloatingActionButton fabReportTruck;
     FloatingActionButton fabProfile;
-    ImageView btnSearchIcon;
-    TextView btnSearchText;
+    ExtendedFloatingActionButton fabSearch;
+
+//    FloatingActionButton fabTruckPicTest;  // test only, to be removed
+//    ImageView ivTruckPicTest;
 
     String userName = null;
 
@@ -56,31 +63,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         fabReportTruck = (FloatingActionButton) findViewById(R.id.btn_report_truck);
         fabReportTruck.setOnClickListener(this::openActivityReportTruck);
+
+//        fabTruckPicTest = (FloatingActionButton) findViewById(R.id.btn_truck_pic_test);
+//        fabTruckPicTest.setOnClickListener(this::truckPicTest);
+//        ivTruckPicTest = (ImageView) findViewById(R.id.iv_truck_pic_test);
+
         fabProfile = (FloatingActionButton) findViewById(R.id.btn_profile);
         fabProfile.setOnClickListener(this::openActivityLogin);
-        btnSearchIcon = (ImageView) findViewById(R.id.btn_search_icon);
-        btnSearchIcon.setOnClickListener(this::openActivitySearchTruck);
-        btnSearchText = (TextView) findViewById(R.id.btn_search_text);
-        btnSearchText.setOnClickListener(this::openActivitySearchTruck);
+//         fabProfile.setOnClickListener(this::openActivityProfile);  // todo name/logic refactoring
+        
+        fabSearch = (ExtendedFloatingActionButton) findViewById(R.id.btn_search);
+        fabSearch.setOnClickListener(this::openActivitySearchTruck);
+
+        context = getApplicationContext();
+        JSONObject jo = Utils.readJSON(context, mainAPIJSONFile, TAG, true);
+        Utils.writeJSONToContext(context, mainAPIJSONFile, TAG, jo);
     }
+
+//    public void truckPicTest(View view) {
+//        String filename = "truck0pic0.jpg";
+//        Bitmap bmTruckPicTest = Utils.readImage(context, filename, TAG);
+//        ivTruckPicTest.setImageBitmap(bmTruckPicTest);
+//    }
 
     public void openActivitySearchTruck(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
         Bundle b = new Bundle();  // pass param to another activity
-        if (view == btnSearchIcon) {  // show all trucks
-            b.putInt("mode", 1);
-        } else if (view == btnSearchText) {  // show all trucks & pop up keyboard for typing
-            b.putInt("mode", 2);
-        }
         intent.putExtras(b);
         startActivity(intent);
-
-        // how to use in another activity:
-        // Bundle b = getIntent().getExtras();
-        // int searchMode = 0;
-        // if (b != null) {
-        //     searchMode = b.getInt("key");
-        // }
     }
 
     public void openActivityReportTruck(View view) {
@@ -88,7 +98,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
-
+//    public void openActivityProfile(View view) {
+//        Intent intent = new Intent(this, ProfileActivity.class);
+//        startActivity(intent);
+//    }
 
     public void openActivityLogin(View view) {
         if (userName == null) {
@@ -134,63 +147,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(champaign, 12));
     }
 
-    public JSONObject readJSONFile(String path) {
-        String text = "";
-        try {
-            InputStream is = getAssets().open("APIs.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            text = new String(buffer);
-            Log.v(TAG, "JSON object read: \n" + text);
-        } catch (IOException e) {
-            Log.e(TAG, "IOException in JSON read: " + e);
-        }
-        JSONObject jo = null;
-        try {
-            JSONTokener tokener = new JSONTokener(text);
-            jo = new JSONObject(tokener);
-        } catch (JSONException e) {
-            Log.e(TAG, "JSON tokener Exception: " + e);
-        }
-        return jo;
-    }
-
     public void addMarker(double lat, double lon, String title) {
         LatLng truckLocation = new LatLng(lat, lon);
         mMap.addMarker(new MarkerOptions().position(truckLocation).title(title));
     }
 
-    public void showReportErrorDialog() {
-        final Dialog dialog = new Dialog(MapsActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
-        dialog.setContentView(R.layout.report_error_dialog);
-
-        Button confirm = findViewById(R.id.buttonConfirm);
-        Button cancel = findViewById(R.id.buttonCancel);
-
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                // TODO: open registration page
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
-
     public void addTruckMarkers() throws Exception {
-        JSONObject jo = readJSONFile("APIs.json");
+        JSONObject jo = Utils.readJSON(context, mainAPIJSONFile, TAG);
         JSONObject trucksAPI = (JSONObject) jo.get("api/trucks");
         JSONArray trucksData = (JSONArray) trucksAPI.get("data");
         for (int i = 0; i < trucksData.length(); i++) {

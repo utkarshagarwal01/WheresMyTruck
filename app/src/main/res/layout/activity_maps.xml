@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
@@ -11,6 +13,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".MapsActivity" />
+
+<!--    todo testing, to be removed-->
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_truck_pic_test"-->
+<!--            android:layout_width="200dp" android:layout_height="200dp"-->
+<!--            android:layout_gravity="center"/>-->
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/btn_truck_pic_test"-->
+<!--            style="@style/FABMain"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:src="@drawable/ic_baseline_arrow_outward_24"-->
+<!--            android:contentDescription="Test truck pic" />-->
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_report_truck"
             style="@style/FABMain"
@@ -23,32 +38,40 @@
             android:layout_gravity="right|top"
             android:src="@drawable/ic_baseline_person_24"
             android:contentDescription="My profile" />
-        <LinearLayout
-            android:layout_height="50dp" android:layout_width="wrap_content"
-            android:layout_margin="15dp"
-            android:orientation="horizontal"
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/btn_search"
+            style="@style/FABMain"
+            android:layout_width="wrap_content"
             android:layout_gravity="left|bottom"
-            android:background="@color/teal_200">
-<!--                todo rounded corner, refactoring-->
-                <ImageView
-                    android:id="@+id/btn_search_icon"
-                    android:layout_width="50dp" android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_baseline_local_shipping_24"
-                    android:contentDescription="Search..." />
-                <View
-                    android:layout_width="1dp" android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@android:color/black"/>
-                <TextView
-                    android:id="@+id/btn_search_text"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:text="Search..."
-                    android:textSize="30dp"/>
-        </LinearLayout>
+            app:icon="@drawable/ic_baseline_local_shipping_24"
+            android:text="Search..."
+            android:contentDescription="Search for trucks" />
+<!--        todo ExtendedFAB for consistency and animation (above), or DIY (below)?-->
+<!--        <LinearLayout-->
+<!--            android:layout_height="50dp" android:layout_width="wrap_content"-->
+<!--            android:layout_margin="15dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_gravity="left|bottom"-->
+<!--            android:background="@color/teal_200">-->
+<!--                <ImageView-->
+<!--                    android:id="@+id/btn_search_icon"-->
+<!--                    android:layout_width="50dp" android:layout_height="match_parent"-->
+<!--                    android:layout_marginLeft="15dp"-->
+<!--                    android:layout_marginRight="15dp"-->
+<!--                    android:src="@drawable/ic_baseline_local_shipping_24"-->
+<!--                    android:contentDescription="Search..." />-->
+<!--                <View-->
+<!--                    android:layout_width="1dp" android:layout_height="match_parent"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginBottom="5dp"-->
+<!--                    android:background="@android:color/black"/>-->
+<!--                <TextView-->
+<!--                    android:id="@+id/btn_search_text"-->
+<!--                    android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginLeft="15dp"-->
+<!--                    android:layout_marginRight="15dp"-->
+<!--                    android:text="Search..."-->
+<!--                    android:textSize="30dp"/>-->
+<!--        </LinearLayout>-->
 </FrameLayout>
