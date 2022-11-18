@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="15dp"
     tools:context=".SearchActivity">
 
     <LinearLayout
@@ -23,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="1dp"
             android:queryHint="@string/search_hint"
             android:iconifiedByDefault="false"
             android:id="@+id/SearchView"/>
