@@ -28,19 +28,11 @@
 
             <Button
                 android:id="@+id/buttonConfirm"
-                android:layout_width="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/create_an_account"
                  />
-
-            <Button
-                android:id="@+id/buttonCancel"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/cancel"
-                android:layout_marginLeft="10dp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
