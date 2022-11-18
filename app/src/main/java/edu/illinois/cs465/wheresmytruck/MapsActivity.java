@@ -3,10 +3,13 @@ package edu.illinois.cs465.wheresmytruck;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -159,6 +162,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(truckLocation).title(title));
     }
 
+    public void showReportErrorDialog() {
+        final Dialog dialog = new Dialog(MapsActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.report_error_dialog);
+
+        Button confirm = findViewById(R.id.buttonConfirm);
+        Button cancel = findViewById(R.id.buttonCancel);
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                // TODO: open registration page
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
 
     public void addTruckMarkers() throws Exception {
         JSONObject jo = readJSONFile("APIs.json");
