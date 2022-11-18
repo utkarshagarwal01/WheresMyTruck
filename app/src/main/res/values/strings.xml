@@ -16,4 +16,6 @@
     <string name="loginButton">Login</string>
     <string name="search_hint">Mo\'s Burritos…</string>
     <string name="search_label">Search Label</string>
+    <string name="create_error">You must create an account in order to report a food truck location.</string>
+    <string name="cancel">Cancel</string>
 </resources>
