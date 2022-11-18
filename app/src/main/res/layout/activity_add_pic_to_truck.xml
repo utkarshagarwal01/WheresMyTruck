@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddPicToTruckActivity">
+
+    <LinearLayout
+        style="@style/LayoutStandardSlideUp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_close_add_pic"
+            style="@style/FABMain"
+            android:layout_gravity="right"
+            android:contentDescription="Close"
+            android:src="@drawable/ic_baseline_close_24" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/et_add_truck_name"
+            android:text="Name of the truck" />
+
+        <EditText
+            android:id="@+id/et_truck_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:inputType="text"
+            android:text="Burrito King"
+            android:enabled="false"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Picture to add" />
+
+        <Button
+            android:id="@+id/btn_add_pic"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="Upload a picture" />
+
+        <ImageView
+            android:id="@+id/iv_truck_pic"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:contentDescription="Picture to add to truck"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Picture type" />
+
+        <LinearLayout
+            android:layout_width="match_parent" android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btn_type_truck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Truck" />
+            <Button
+                android:id="@+id/btn_type_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Menu" />
+            <Button
+                android:id="@+id/btn_type_food"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Food" />
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_submit_add_pic"
+            style="@style/FABMain"
+            android:layout_gravity="right"
+            android:contentDescription="Submit"
+            android:src="@drawable/ic_baseline_done_24" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
