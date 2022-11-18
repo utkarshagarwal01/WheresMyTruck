@@ -3,13 +3,17 @@ package edu.illinois.cs465.wheresmytruck;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,7 +67,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         fabReportTruck = (FloatingActionButton) findViewById(R.id.btn_report_truck);
-        fabReportTruck.setOnClickListener(this::openActivityReportTruck);
+        fabReportTruck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (userName == null) {
+                    showReportErrorDialog();
+                } else {
+                    openActivityReportTruck(view);
+                }
+            }
+        });
 
 //        fabTruckPicTest = (FloatingActionButton) findViewById(R.id.btn_truck_pic_test);
 //        fabTruckPicTest.setOnClickListener(this::truckPicTest);
@@ -190,4 +203,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             addMarker((double) truck.get("latitude"), (double) truck.get("longitude"), (String) truck.get("truckName"), String.valueOf(truck.get("truckId")));
         }
     }
+
+    public void showReportErrorDialog() {
+        final Dialog dialog = new Dialog(MapsActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.report_error_dialog);
+
+        Button confirm = dialog.findViewById(R.id.buttonConfirmDialog);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                openActivityLogin(view);
+            }
+        });
+
+        dialog.show();
+    }
+
 }
