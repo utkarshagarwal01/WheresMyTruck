@@ -65,7 +65,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_truck_details);
 
-        truckId = getIntent().getStringExtra("username");
+        truckId = getIntent().getStringExtra("truckid");
 
         close = (FloatingActionButton) findViewById(R.id.close_details);
         close.setOnClickListener(this::onClickClose);
