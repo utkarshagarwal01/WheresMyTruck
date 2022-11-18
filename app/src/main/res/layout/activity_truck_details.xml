@@ -31,7 +31,7 @@
                 android:background="#c0c0c0"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:orientation="horizontal"
                 android:gravity="center"
@@ -45,8 +45,10 @@
 
                 <ImageView
                     android:id="@+id/truck_photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"/>
 
                 <Button
                     android:id="@+id/right_arrow"
@@ -213,10 +215,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:orientation="horizontal">
-                    <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/food1"/>
                 </LinearLayout>
             </HorizontalScrollView>
             <View
@@ -242,10 +240,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:orientation="horizontal">
-                    <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/food5"/>
                 </LinearLayout>
             </HorizontalScrollView>
             <View
