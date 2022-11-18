@@ -14,6 +14,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import edu.illinois.cs465.wheresmytruck.databinding.ActivityMapsBinding;
@@ -69,5 +71,16 @@ public class AddLocationActivity extends FragmentActivity implements OnMapReadyC
         LatLng champaign = new LatLng(40.1102396, -88.2343178);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(champaign, 12));
 
+        Marker crosshair = mMap.addMarker(new MarkerOptions().position(champaign));
+
+        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                // Get the center of the Map.
+                LatLng centerOfMap = mMap.getCameraPosition().target;
+                // Update your Marker's position to the center of the Map.
+                crosshair.setPosition(centerOfMap);
+            }
+        });
     }
 }
