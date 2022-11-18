@@ -38,6 +38,8 @@ public class ReportTruckActivity extends AppCompatActivity {
     FloatingActionButton btnSubmit;
     final int CAMERA_PERMISSION_CODE = 1;
     final int CAMERA_REQUEST_CODE = 2;
+    final int LOCATION_REQUEST_CODE = 3;
+    private final String TAG = "ReportTruckActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,11 +135,15 @@ public class ReportTruckActivity extends AppCompatActivity {
             btnAddPic.setVisibility(View.GONE);
             ivTruckPic.setImageBitmap(bmTruckPic);
             ivTruckPic.setVisibility(View.VISIBLE);
+        } else if(resultCode == Activity.RESULT_OK && requestCode == LOCATION_REQUEST_CODE) {
+            double lat = data.getDoubleExtra("lat", 0);
+            double lon = data.getDoubleExtra("lon", 0);
+            Log.v(TAG, "Selected location: Lat="+lat+" Lon="+lon);
         }
     }
 
     public void openActivityAddLocation(View view) {
         Intent intent = new Intent(this, AddLocationActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, LOCATION_REQUEST_CODE);
     }
 }
