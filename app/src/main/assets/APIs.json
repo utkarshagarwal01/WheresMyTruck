@@ -31,18 +31,24 @@
       "longitude": -88.2276674,
       "latitude": 40.1127105,
       "rating": 4.0,
+      "distance": 12.0,
       "locConf": 8.5,
-      "lastSeen": 1232454,
+      "lastSeen": 12324,
       "truckPics": [
-        "truck1.jpg",
-        "truck2.jpg"
+        "truck1",
+        "truck2",
+        "truck3"
       ],
       "foodPics": [
-        "food1.jpg",
-        "food2.jpg"
+        "food1",
+        "food2",
+        "food3",
+        "food4",
+        "food5",
+        "food6"
       ],
       "menuPics": [
-        "menu1.jpg"
+        "menu1"
       ],
       "userReports": [
         {
