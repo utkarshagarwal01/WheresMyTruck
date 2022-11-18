@@ -1,6 +1,19 @@
 <resources>
     <string name="app_name">WheresMyTruck</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="login_label">Login:</string>
+    <string name="username_label">Username:</string>
+    <string name="username_hint">Name…</string>
+    <string name="password_label">Password:</string>
+    <string name="password_hint">Password…</string>
+    <string name="or">- or -</string>
+    <string name="create_an_account">Create an Account</string>
+    <string name="username">Username:</string>
+    <string name="example_email">example@email.com</string>
+    <string name="register_account">Register</string>
+    <string name="create_account">Create Account:</string>
+    <string name="email_address">Email Address:</string>
+    <string name="loginButton">Login</string>
     <string name="search_hint">Mo\'s Burritos…</string>
     <string name="search_label">Search Label</string>
 </resources>

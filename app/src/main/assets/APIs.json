@@ -1,0 +1,94 @@
+{
+  "_comment": "standard API response structure",
+  "api/trucks": {
+    "_comment": "GET an array of all trucks, for the home page and truck search page",
+    "status": "ok",
+    "data": [
+      {
+        "truckId": 0,
+        "truckName": "Burrito King",
+        "longitude": -88.2276674,
+        "latitude": 40.1127105,
+        "locConf": 8.5,
+        "lastSeen": 1232454
+      },
+      {
+        "truckId": 1,
+        "truckName": "Fernando's",
+        "longitude": -88.2288938,
+        "latitude": 40.1099063,
+        "locConf": 8.5,
+        "lastSeen": 1232454
+      }
+    ]
+  },
+  "api/getTruck?id=0": {
+    "_comment": "GET specifics for one truck, for the truck details page",
+    "status": "ok",
+    "data": {
+      "truckId": 0,
+      "truckName": "Burrito King",
+      "longitude": -88.2276674,
+      "latitude": 40.1127105,
+      "rating": 4.0,
+      "locConf": 8.5,
+      "lastSeen": 1232454,
+      "truckPics": [
+        "truck1.jpg",
+        "truck2.jpg"
+      ],
+      "foodPics": [
+        "food1.jpg",
+        "food2.jpg"
+      ],
+      "menuPics": [
+        "menu1.jpg"
+      ],
+      "userReports": [
+        {
+          "reportId": 2,
+          "userId": 3
+        },
+        {
+          "reportId": 3,
+          "userId": 5
+        }
+      ]
+    }
+  },
+  "api/login": {
+    "_comment": "POST login credentials, for the login page",
+    "status": "ok",
+    "data": {
+      "userName": "Illini1867",
+      "password": "password123"
+    }
+  },
+  "api/register": {
+    "_comment": "POST new account information, for the register page",
+    "status": "ok",
+    "data": {
+      "userName": "Illini1867",
+      "email": "coolguy@illinois.edu",
+      "password": "password123",
+      "photo": "selfie.jpg"
+    }
+  },
+  "api/getProfile?id=0": {
+    "_comment": "GET detailed user information, for the profile page",
+    "status": "ok",
+    "data": {
+      "userName": "Illini1867",
+      "email": "illini@illinois.edu",
+      "verified": false,
+      "badge": true,
+      "reputation": 42,
+      "submittedPics": [
+        "truck2.jpg",
+        "food1.jpg",
+        "menu1.jpg"
+      ],
+      "profilePic": "selfie.jpg"
+    }
+  }
+}
