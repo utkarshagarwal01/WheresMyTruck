@@ -62,15 +62,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void openActivitySearchTruck(View view) {
-//        Intent intent = new Intent(this, SearchTruckActivity.class);
-//        Bundle b = new Bundle();  // pass param to another activity
-//        if (view == btnSearchIcon) {  // show all trucks
-//            b.putInt("mode", 1);
-//        } else if (view == btnSearchText) {  // show all trucks & pop up keyboard for typing
-//            b.putInt("mode", 2);
-//        }
-//        intent.putExtras(b);
-//        startActivity(intent);
+        Intent intent = new Intent(this, SearchActivity.class);
+        Bundle b = new Bundle();  // pass param to another activity
+        if (view == btnSearchIcon) {  // show all trucks
+            b.putInt("mode", 1);
+        } else if (view == btnSearchText) {  // show all trucks & pop up keyboard for typing
+            b.putInt("mode", 2);
+        }
+        intent.putExtras(b);
+        startActivity(intent);
 
         // how to use in another activity:
         // Bundle b = getIntent().getExtras();

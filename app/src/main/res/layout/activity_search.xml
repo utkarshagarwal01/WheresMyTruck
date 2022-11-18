@@ -17,6 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="10dp"
+            android:queryHint="@string/search_hint"
+            android:iconifiedByDefault="false"
             android:id="@+id/SearchView"/>
 
         <ListView
