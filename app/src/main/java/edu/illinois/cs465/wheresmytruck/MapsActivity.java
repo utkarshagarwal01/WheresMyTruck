@@ -22,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -111,11 +112,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
-//    public void openActivityProfile(View view) {
-//        Intent intent = new Intent(this, ProfileActivity.class);
-//        startActivity(intent);
-//    }
-
     public void openActivityLogin(View view) {
         if (userName == null) {
             Intent intent = new Intent(this, LoginActivity.class);
@@ -158,11 +154,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Move the camera to Champaign
         LatLng champaign = new LatLng(40.1102396, -88.2343178);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(champaign, 12));
+
+        mMap.setOnMarkerClickListener(marker -> {
+            String truckId = (String) marker.getTag();
+            Intent intent = new Intent(this, TruckDetailsActivity.class);
+            intent.putExtra("truckid", truckId);
+            startActivity(intent);
+            return false;
+        });
     }
 
-    public void addMarker(double lat, double lon, String title) {
+    public JSONObject readJSONFile(String path) {
+        String text = "";
+        try {
+            InputStream is = getAssets().open("APIs.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            text = new String(buffer);
+            Log.v(TAG, "JSON object read: \n" + text);
+        } catch (IOException e) {
+            Log.e(TAG, "IOException in JSON read: " + e);
+        }
+        JSONObject jo = null;
+        try {
+            JSONTokener tokener = new JSONTokener(text);
+            jo = new JSONObject(tokener);
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON tokener Exception: " + e);
+        }
+        return jo;
+    }
+
+    public void addMarker(double lat, double lon, String title, String truckId) {
         LatLng truckLocation = new LatLng(lat, lon);
-        mMap.addMarker(new MarkerOptions().position(truckLocation).title(title));
+        MarkerOptions markerOptions = new MarkerOptions().position(truckLocation).title(title);
+        Marker marker = mMap.addMarker(markerOptions);
+        marker.setTag(truckId);
     }
 
     public void addTruckMarkers() throws Exception {
@@ -171,7 +200,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         JSONArray trucksData = (JSONArray) trucksAPI.get("data");
         for (int i = 0; i < trucksData.length(); i++) {
             JSONObject truck = trucksData.getJSONObject(i);
-            addMarker((double) truck.get("latitude"), (double) truck.get("longitude"), (String) truck.get("truckName"));
+            addMarker((double) truck.get("latitude"), (double) truck.get("longitude"), (String) truck.get("truckName"), String.valueOf(truck.get("truckId")));
         }
     }
 
