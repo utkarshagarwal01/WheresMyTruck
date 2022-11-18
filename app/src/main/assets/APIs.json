@@ -60,14 +60,35 @@
     "_comment": "POST login credentials, for the login page",
     "status": "ok",
     "data": {
-      "userId": "abcd",
       "userName": "Illini1867",
-      "userEmail": "illini@illinois.edu",
+      "password": "password123"
+    }
+  },
+  "api/register": {
+    "_comment": "POST new account information, for the register page",
+    "status": "ok",
+    "data": {
+      "userName": "Illini1867",
+      "email": "coolguy@illinois.edu",
+      "password": "password123",
+      "photo": "selfie.jpg"
+    }
+  },
+  "api/getProfile?id=0": {
+    "_comment": "GET detailed user information, for the profile page",
+    "status": "ok",
+    "data": {
+      "userName": "Illini1867",
+      "email": "illini@illinois.edu",
+      "verified": false,
+      "badge": true,
+      "reputation": 42,
       "submittedPics": [
         "truck2.jpg",
         "food1.jpg",
         "menu1.jpg"
-      ]
+      ],
+      "profilePic": "selfie.jpg"
     }
   }
 }

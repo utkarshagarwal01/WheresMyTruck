@@ -1,5 +1,6 @@
 package edu.illinois.cs465.wheresmytruck;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Context;
@@ -9,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,6 +52,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //    ImageView btnSearchIcon;
 //    TextView btnSearchText;
 
+    String userName = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,12 +73,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ivTruckPicTest = (ImageView) findViewById(R.id.iv_truck_pic_test);
 
         fabProfile = (FloatingActionButton) findViewById(R.id.btn_profile);
-        fabProfile.setOnClickListener(this::openActivityProfile);
-
-//        btnSearchIcon = (ImageView) findViewById(R.id.btn_search_icon);
-//        btnSearchIcon.setOnClickListener(this::openActivitySearchTruck);
-//        btnSearchText = (TextView) findViewById(R.id.btn_search_text);
-//        btnSearchText.setOnClickListener(this::openActivitySearchTruck);
+        fabProfile.setOnClickListener(this::openActivityLogin);
+//         fabProfile.setOnClickListener(this::openActivityProfile);
+        
         fabSearch = (ExtendedFloatingActionButton) findViewById(R.id.btn_search);
         fabSearch.setOnClickListener(this::openActivitySearchTruck);
 
@@ -99,10 +98,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void openActivitySearchTruck(View view) {
-//        Intent intent = new Intent(this, SearchTruckActivity.class);
-//        Bundle b = new Bundle();  // pass param to another activity
-//        intent.putExtras(b);
-//        startActivity(intent);
+        Intent intent = new Intent(this, SearchActivity.class);
+        Bundle b = new Bundle();  // pass param to another activity
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     public void openActivityReportTruck(View view) {
@@ -113,6 +112,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void openActivityProfile(View view) {
 //        Intent intent = new Intent(this, ProfileActivity.class);
 //        startActivity(intent);
+    }
+
+
+    public void openActivityLogin(View view) {
+        if (userName == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, 1);
+        } else {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("username", userName);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK && data != null) {
+                userName = data.getStringExtra("username");
+            }
+        }
     }
 
     /**
