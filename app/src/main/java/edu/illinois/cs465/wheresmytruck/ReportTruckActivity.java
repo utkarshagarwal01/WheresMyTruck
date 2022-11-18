@@ -23,10 +23,15 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ReportTruckActivity extends AppCompatActivity {
+    private Context context;
     EditText etTruckName;
     Button btnAddPic;
     ImageView ivTruckPic;
@@ -43,6 +48,7 @@ public class ReportTruckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_truck);
+        context = getApplicationContext();
 
         etTruckName = (EditText) findViewById(R.id.et_add_truck_name);
 
@@ -110,8 +116,20 @@ public class ReportTruckActivity extends AppCompatActivity {
             // pretend this submission is for truckId=0, update APIs.json locally,
             // so truck details page can show these pics
             String filename = "truck0pic0.jpg";
-            Context context = getApplicationContext();
             Utils.writeImage(context, filename, TAG, bmTruckPic);
+            try {
+                // todo test write JSON utility function
+                JSONObject fakeBE = Utils.readJSON(context, "APIs.json", "ReportTruck reading");
+                JSONArray truckPics = (JSONArray) ((JSONObject) ((JSONObject) fakeBE.get("api/getTruck?id=0")).get("data")).get("truckPics");
+                truckPics.put(filename);
+                Utils.writeJSONToContext(context, "APIs.json", "ReportTruck writing", fakeBE);
+                // todo testing writeJSON() correctness, to be removed
+                JSONObject fakeBETest = Utils.readJSON(context, "APIs.json", "ReportTruck reading");
+                JSONArray truckPicsTest = (JSONArray) ((JSONObject) ((JSONObject) fakeBETest.get("api/getTruck?id=0")).get("data")).get("truckPics");
+                assert truckPicsTest.length() > 0;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             Toast.makeText(getBaseContext(), "You reported a truck location!", Toast.LENGTH_LONG).show();
             finish();
         }
