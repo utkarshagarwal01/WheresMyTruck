@@ -19,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -42,12 +43,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final String mainAPIJSONFile = "APIs.json";
     FloatingActionButton fabReportTruck;
     FloatingActionButton fabProfile;
+    ExtendedFloatingActionButton fabSearch;
 
     FloatingActionButton fabTruckPicTest;  // todo test only, to be removed
     ImageView ivTruckPicTest;
 
-    ImageView btnSearchIcon;
-    TextView btnSearchText;
+    // may be replaced with EFAB
+//    ImageView btnSearchIcon;
+//    TextView btnSearchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +72,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         fabProfile = (FloatingActionButton) findViewById(R.id.btn_profile);
         fabProfile.setOnClickListener(this::openActivityProfile);
-        btnSearchIcon = (ImageView) findViewById(R.id.btn_search_icon);
-        btnSearchIcon.setOnClickListener(this::openActivitySearchTruck);
-        btnSearchText = (TextView) findViewById(R.id.btn_search_text);
-        btnSearchText.setOnClickListener(this::openActivitySearchTruck);
+
+//        btnSearchIcon = (ImageView) findViewById(R.id.btn_search_icon);
+//        btnSearchIcon.setOnClickListener(this::openActivitySearchTruck);
+//        btnSearchText = (TextView) findViewById(R.id.btn_search_text);
+//        btnSearchText.setOnClickListener(this::openActivitySearchTruck);
+        fabSearch = (ExtendedFloatingActionButton) findViewById(R.id.btn_search);
+        fabSearch.setOnClickListener(this::openActivitySearchTruck);
 
         context = getApplicationContext();
         JSONObject jo = Utils.readJSON(context, mainAPIJSONFile, TAG, true);
@@ -95,20 +101,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void openActivitySearchTruck(View view) {
 //        Intent intent = new Intent(this, SearchTruckActivity.class);
 //        Bundle b = new Bundle();  // pass param to another activity
-//        if (view == btnSearchIcon) {  // show all trucks
-//            b.putInt("mode", 1);
-//        } else if (view == btnSearchText) {  // show all trucks & pop up keyboard for typing
-//            b.putInt("mode", 2);
-//        }
 //        intent.putExtras(b);
 //        startActivity(intent);
-
-        // how to use in another activity:
-        // Bundle b = getIntent().getExtras();
-        // int searchMode = 0;
-        // if (b != null) {
-        //     searchMode = b.getInt("key");
-        // }
     }
 
     public void openActivityReportTruck(View view) {
