@@ -45,12 +45,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     FloatingActionButton fabProfile;
     ExtendedFloatingActionButton fabSearch;
 
-    FloatingActionButton fabTruckPicTest;  // todo test only, to be removed
-    ImageView ivTruckPicTest;
-
-    // may be replaced with EFAB
-//    ImageView btnSearchIcon;
-//    TextView btnSearchText;
+//    FloatingActionButton fabTruckPicTest;  // test only, to be removed
+//    ImageView ivTruckPicTest;
 
     String userName = null;
 
@@ -68,13 +64,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fabReportTruck = (FloatingActionButton) findViewById(R.id.btn_report_truck);
         fabReportTruck.setOnClickListener(this::openActivityReportTruck);
 
-        fabTruckPicTest = (FloatingActionButton) findViewById(R.id.btn_truck_pic_test);
-        fabTruckPicTest.setOnClickListener(this::truckPicTest);
-        ivTruckPicTest = (ImageView) findViewById(R.id.iv_truck_pic_test);
+//        fabTruckPicTest = (FloatingActionButton) findViewById(R.id.btn_truck_pic_test);
+//        fabTruckPicTest.setOnClickListener(this::truckPicTest);
+//        ivTruckPicTest = (ImageView) findViewById(R.id.iv_truck_pic_test);
 
         fabProfile = (FloatingActionButton) findViewById(R.id.btn_profile);
         fabProfile.setOnClickListener(this::openActivityLogin);
-//         fabProfile.setOnClickListener(this::openActivityProfile);
+//         fabProfile.setOnClickListener(this::openActivityProfile);  // todo name/logic refactoring
         
         fabSearch = (ExtendedFloatingActionButton) findViewById(R.id.btn_search);
         fabSearch.setOnClickListener(this::openActivitySearchTruck);
@@ -84,18 +80,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Utils.writeJSONToContext(context, mainAPIJSONFile, TAG, jo);
     }
 
-    public void truckPicTest(View view) {
-        // todo test read JSON utility function
-
-        String filename = "truck0pic0.jpg";
-        Context context = getApplicationContext();
-        try (FileInputStream fis = context.openFileInput(filename)) {
-            Bitmap bmTruckPicTest = BitmapFactory.decodeStream(fis);
-            ivTruckPicTest.setImageBitmap(bmTruckPicTest);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void truckPicTest(View view) {
+//        String filename = "truck0pic0.jpg";
+//        Context context = getApplicationContext();
+//        try (FileInputStream fis = context.openFileInput(filename)) {
+//            Bitmap bmTruckPicTest = BitmapFactory.decodeStream(fis);
+//            ivTruckPicTest.setImageBitmap(bmTruckPicTest);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void openActivitySearchTruck(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
@@ -109,11 +103,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
-    public void openActivityProfile(View view) {
+//    public void openActivityProfile(View view) {
 //        Intent intent = new Intent(this, ProfileActivity.class);
 //        startActivity(intent);
-    }
-
+//    }
 
     public void openActivityLogin(View view) {
         if (userName == null) {
@@ -163,7 +156,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng truckLocation = new LatLng(lat, lon);
         mMap.addMarker(new MarkerOptions().position(truckLocation).title(title));
     }
-
 
     public void addTruckMarkers() throws Exception {
         JSONObject jo = Utils.readJSON(context, mainAPIJSONFile, TAG);
