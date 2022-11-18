@@ -23,8 +23,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -36,9 +34,9 @@ public class ReportTruckActivity extends AppCompatActivity {
     Button btnAddLoc;
     FloatingActionButton btnClose;
     FloatingActionButton btnSubmit;
-    final int CAMERA_PERMISSION_CODE = 1;
-    final int CAMERA_REQUEST_CODE = 2;
-    final int LOCATION_REQUEST_CODE = 3;
+    final int PC_CAMERA = 1;
+    final int RC_CAMERA = 2;
+    final int RC_LOCATION = 3;
     private final String TAG = "ReportTruckActivity";
 
     @Override
@@ -68,20 +66,20 @@ public class ReportTruckActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             Log.v(null, "cam perm granted");
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(intent, CAMERA_REQUEST_CODE);  // todo deprecated --> registerForActivityResult()
+            startActivityForResult(intent, RC_CAMERA);  // todo deprecated --> registerForActivityResult()
         } else {
             Log.v(null, "cam perm not granted");
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PC_CAMERA);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PERMISSION_CODE) {
+        if (requestCode == PC_CAMERA) {
             if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                startActivityForResult(intent, RC_CAMERA);
             } else {
                 Toast.makeText(this, "Camera access was not granted.", Toast.LENGTH_LONG).show();
             }
@@ -126,16 +124,17 @@ public class ReportTruckActivity extends AppCompatActivity {
         }
     }
 
-    @Override  // took a pic --> display it
+    @Override  // retrieve pic/loc from sub-activities
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
+        if (resultCode == Activity.RESULT_OK && requestCode == RC_CAMERA) {
             assert data != null;
             bmTruckPic = (Bitmap) data.getExtras().get("data");
             btnAddPic.setVisibility(View.GONE);
             ivTruckPic.setImageBitmap(bmTruckPic);
             ivTruckPic.setVisibility(View.VISIBLE);
-        } else if(resultCode == Activity.RESULT_OK && requestCode == LOCATION_REQUEST_CODE) {
+        } else if (resultCode == Activity.RESULT_OK && requestCode == RC_LOCATION) {
+            assert data != null;
             double lat = data.getDoubleExtra("lat", 0);
             double lon = data.getDoubleExtra("lon", 0);
             Log.v(TAG, "Selected location: Lat="+lat+" Lon="+lon);
@@ -144,6 +143,6 @@ public class ReportTruckActivity extends AppCompatActivity {
 
     public void openActivityAddLocation(View view) {
         Intent intent = new Intent(this, AddLocationActivity.class);
-        startActivityForResult(intent, LOCATION_REQUEST_CODE);
+        startActivityForResult(intent, RC_LOCATION);
     }
 }
