@@ -44,6 +44,9 @@ public class ReportTruckActivity extends AppCompatActivity {
     final int RC_LOCATION = 3;
     private final String TAG = "ReportTruckActivity";
 
+    double lat;
+    double lon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +134,12 @@ public class ReportTruckActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             Toast.makeText(getBaseContext(), "You reported a truck location!", Toast.LENGTH_LONG).show();
+            Intent result = new Intent();
+            result.putExtra("lat", String.valueOf(lat));
+            result.putExtra("lon", String.valueOf(lon));
+            result.putExtra("truckname", truckName);
+            result.putExtra("truckid", "12");
+            setResult(RESULT_OK, result);
             finish();
         }
     }
@@ -146,8 +155,8 @@ public class ReportTruckActivity extends AppCompatActivity {
             ivTruckPic.setVisibility(View.VISIBLE);
         } else if (resultCode == Activity.RESULT_OK && requestCode == RC_LOCATION) {
             assert data != null;
-            double lat = data.getDoubleExtra("lat", 0);
-            double lon = data.getDoubleExtra("lon", 0);
+            lat = data.getDoubleExtra("lat", 0);
+            lon = data.getDoubleExtra("lon", 0);
             Log.v(TAG, "Selected location: Lat="+lat+" Lon="+lon);
         }
     }

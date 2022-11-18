@@ -109,7 +109,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void openActivityReportTruck(View view) {
         Intent intent = new Intent(this, ReportTruckActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 2);
     }
 
     public void openActivityLogin(View view) {
@@ -129,6 +129,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (requestCode == 1) {
             if(resultCode == RESULT_OK && data != null) {
                 userName = data.getStringExtra("username");
+            }
+        } else if (requestCode == 2) {
+            if(resultCode == RESULT_OK && data != null) {
+                double lat = Double.parseDouble(data.getStringExtra("lat"));
+                double lon = Double.parseDouble(data.getStringExtra("lon"));
+                String truckName = data.getStringExtra("truckname");
+                String truckId = data.getStringExtra("truckid");
+                addMarker(lat, lon, truckName, truckId);
             }
         }
     }
