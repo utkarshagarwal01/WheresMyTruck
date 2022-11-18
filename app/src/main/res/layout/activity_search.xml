@@ -10,7 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        style="@style/LayoutStandardSlideUp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/close_list"
+            style="@style/FABMain"
+            android:src="@drawable/ic_baseline_close_24"
+            android:layout_gravity="right"
+            android:contentDescription="Close" />
 
         <SearchView
             app:layout_constraintTop_toTopOf="parent"
