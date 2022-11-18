@@ -3,8 +3,12 @@ package edu.illinois.cs465.wheresmytruck;
 import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -23,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -53,6 +58,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
     boolean voted = false;
     int imgIndex = 0;
     ArrayList<String> truckImages;
+    final String TAG = "TruckDetailsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +149,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
     }
 
     public void fillTruckInfo() throws Exception {
-        JSONObject jo = readJSONFile("APIs.json");
+        JSONObject jo = Utils.readJSON(getApplicationContext(),"APIs.json", TAG);
         JSONObject profileAPI = (JSONObject) jo.get("api/getTruck?id=0");
         JSONObject data = (JSONObject) profileAPI.get("data");
 
@@ -159,7 +165,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
         for (int i = 0; i < truckPics.length(); i++) {
             truckImages.add(truckPics.getString(i));
         }
-        truckPhoto.setImageResource(getResources().getIdentifier(truckImages.get(0), "drawable", getPackageName()));
+        truckPhoto.setImageBitmap(getImageBitmap(truckImages.get(0)));
 
         JSONArray menuPics = (JSONArray) data.get("menuPics");
         menuImageList = new ArrayList<>();
@@ -167,6 +173,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
             ImageButton menuImg = new ImageButton(this);
             String img = menuPics.getString(i);
             menuImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
+//            menuImg.setImageBitmap(getImageBitmap(img));  Use this when we implement the ability to submit these
             menuImg.setLayoutParams(new ViewGroup.LayoutParams(120, 100));
             menuImages.addView(menuImg);
             menuImageList.add(menuImg);
@@ -177,10 +184,9 @@ public class TruckDetailsActivity extends AppCompatActivity {
         for (int i = 0; i < foodPics.length(); i++) {
             ImageButton foodImg = new ImageButton(this);
             String img = foodPics.getString(i);
-            foodImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
-            foodImg.setLayoutParams(new ViewGroup.LayoutParams(120, 100));
-            foodImg.setMinimumHeight(100);
-            foodImg.setMinimumHeight(120);
+            foodImg.setBackgroundResource(getResources().getIdentifier(img, "drawable", getPackageName()));
+//            foodImg.setImageBitmap(getImageBitmap(img));  Use this when we implement the ability to submit these
+            foodImg.setScaleType(ImageButton.ScaleType.FIT_CENTER);
             foodImages.addView(foodImg);
             foodImageList.add(foodImg);
         }
@@ -199,26 +205,14 @@ public class TruckDetailsActivity extends AppCompatActivity {
         }
     }
 
-    public JSONObject readJSONFile(String path) {
-        String text = "";
-        try {
-            InputStream is = getAssets().open("APIs.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            text = new String(buffer);
-            Log.v(null, "JSON object read: \n" + text);
+    public Bitmap getImageBitmap(String location) {
+        Context context = getApplicationContext();
+        try (FileInputStream fis = context.openFileInput(location)) {
+            Bitmap bmTruckPicTest = BitmapFactory.decodeStream(fis);
+            return bmTruckPicTest;
         } catch (IOException e) {
-            Log.e(null, "IOException in JSON read: " + e);
+            e.printStackTrace();
+            return null;
         }
-        JSONObject jo = null;
-        try {
-            JSONTokener tokener = new JSONTokener(text);
-            jo = new JSONObject(tokener);
-        } catch (JSONException e) {
-            Log.e(null, "JSON tokener Exception: " + e);
-        }
-        return jo;
     }
 }

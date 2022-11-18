@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    <androidx.fragment.app.FragmentContainerView
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/add_location_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AddLocationActivity" />
+    <LinearLayout
+        android:layout_height="wrap_content" android:layout_width="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center|bottom">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_location_done"
+            style="@style/FABMain"
+            android:layout_gravity="right|bottom"
+            android:src="@drawable/ic_baseline_done_24"
+            android:contentDescription="Report a new truck location" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_location_close"
+            style="@style/FABMain"
+            android:layout_gravity="right|bottom"
+            android:src="@drawable/ic_baseline_close_24"
+            android:contentDescription="Report a new truck location" />
+    </LinearLayout>
+</FrameLayout>

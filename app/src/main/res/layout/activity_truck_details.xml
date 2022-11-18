@@ -39,8 +39,8 @@
 
                 <Button
                     android:id="@+id/left_arrow"
-                    android:layout_width="60dp"
-                    android:layout_height="72dp"
+                    android:layout_width="48dp"
+                    android:layout_height="60dp"
                     android:background="@drawable/ic_baseline_keyboard_arrow_left_24"/>
 
                 <ImageView
@@ -52,8 +52,8 @@
 
                 <Button
                     android:id="@+id/right_arrow"
-                    android:layout_width="60dp"
-                    android:layout_height="72dp"
+                    android:layout_width="48dp"
+                    android:layout_height="60dp"
                     android:background="@drawable/ic_baseline_keyboard_arrow_right_24" />
             </LinearLayout>
 
@@ -78,7 +78,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Burrito King"
-                        android:textSize="24sp"/>
+                        android:textSize="20sp"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -89,28 +89,28 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="4.0"
-                            android:textSize="18sp"/>
+                            android:textSize="16sp"/>
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/ic_baseline_star_rate_24"
-                            android:textSize="18sp"/>
+                            android:textSize="16sp"/>
                         <TextView
                             android:id="@+id/distance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="10"
-                            android:textSize="18sp"/>
+                            android:textSize="16sp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=" mins"
-                            android:textSize="18sp"/>
+                            android:textSize="16sp"/>
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/ic_baseline_directions_walk_24"
-                            android:textSize="18sp"/>
+                            android:textSize="16sp"/>
                     </LinearLayout>
 
                     <Button
@@ -132,7 +132,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Confidence:"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:gravity="center"/>
 
                     <ImageView
@@ -147,19 +147,19 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:text="Last Seen: "/>
                         <TextView
                             android:id="@+id/last_seen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="20"
-                            android:textSize="16dp"/>
+                            android:textSize="14sp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=" mins"
-                            android:textSize="16dp"/>
+                            android:textSize="14sp"/>
                     </LinearLayout>
 
                     <View
@@ -170,7 +170,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:text="Is this accurate?"/>
 
                     <LinearLayout
@@ -211,7 +211,7 @@
                     android:id="@+id/menu_images"
                     android:layout_marginVertical="5dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     android:orientation="horizontal">
                     <ImageButton
                         android:layout_width="120dp"
@@ -240,7 +240,7 @@
                     android:id="@+id/food_images"
                     android:layout_marginVertical="5dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     android:orientation="horizontal">
                     <ImageButton
                         android:layout_width="120dp"

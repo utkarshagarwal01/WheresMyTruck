@@ -34,6 +34,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     String userName;
 
+    final String TAG = "ProfileActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void fillProfileInfo() throws Exception {
-        JSONObject jo = readJSONFile("APIs.json");
+        JSONObject jo = Utils.readJSON(getApplicationContext(),"APIs.json", TAG);
         JSONObject profileAPI = (JSONObject) jo.get("api/getProfile?id=0");
         JSONObject data = (JSONObject) profileAPI.get("data");
 
@@ -89,28 +91,5 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Hardcoded for now
         profileImageView.setImageResource(R.drawable.stock_guy);
-    }
-
-    public JSONObject readJSONFile(String path) {
-        String text = "";
-        try {
-            InputStream is = getAssets().open("APIs.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            text = new String(buffer);
-            Log.v(null, "JSON object read: \n" + text);
-        } catch (IOException e) {
-            Log.e(null, "IOException in JSON read: " + e);
-        }
-        JSONObject jo = null;
-        try {
-            JSONTokener tokener = new JSONTokener(text);
-            jo = new JSONObject(tokener);
-        } catch (JSONException e) {
-            Log.e(null, "JSON tokener Exception: " + e);
-        }
-        return jo;
     }
 }
