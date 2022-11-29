@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -52,6 +53,9 @@ public class TruckDetailsActivity extends AppCompatActivity {
 
     ArrayList<ImageButton> menuImageList;
     ArrayList<ImageButton> foodImageList;
+
+    double lat;
+    double lon;
 
     String truckId;
 
@@ -107,23 +111,23 @@ public class TruckDetailsActivity extends AppCompatActivity {
         try {
             fillTruckInfo();
         } catch (Exception e) {
-            Log.e(null, "Exception filling in profile data: " + e);
+            Log.e(TAG, "Exception filling in profile data: " + e);
         }
 
         try {
             getVoteHistory();
         } catch (Exception e) {
-            Log.e(null, "Exception getting user vote history: " + e);
+            Log.e(TAG, "Exception getting user vote history: " + e);
         }
     }
 
     public void onClickClose(View v) {
-        Log.v(null, "truck details onClose()");
+        Log.v(TAG, "truck details onClose()");
         finish();
     }
 
     public void onClickAddPhoto(View v) {
-        Log.v(null, "clicked add photo");
+        Log.v(TAG, "clicked add photo");
         Intent intent = new Intent(this, AddPicToTruckActivity.class);
         startActivity(intent);
     }
@@ -143,7 +147,10 @@ public class TruckDetailsActivity extends AppCompatActivity {
         }
     }
     public void onClickNavigate(View v) {
-        Log.v(null, "onNavigate()");
+        Log.v(TAG, "onNavigate()");
+        String uri = "geo:?q= " + lat + "," + lon;
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(intent);
     }
 
     public void onClickThumbUp(View v) {
@@ -205,6 +212,8 @@ public class TruckDetailsActivity extends AppCompatActivity {
         truckName.setText((String) data.get("truckName"));
         rating.setText(String.valueOf(data.get("rating")));
         distance.setText(String.valueOf(data.get("distance")));
+        lat = (double) data.get("latitude");
+        lon = (double) data.get("longitude");
         lastSeen.setText(String.valueOf(data.get("lastSeen")));
         savedLastSeen = String.valueOf(data.get("lastSeen"));
         double confidenceScore = data.getDouble("locConf");
