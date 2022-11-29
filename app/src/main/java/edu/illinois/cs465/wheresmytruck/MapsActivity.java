@@ -1,21 +1,23 @@
 package edu.illinois.cs465.wheresmytruck;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,8 +34,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -54,6 +54,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //    ImageView ivTruckPicTest;
 
     String userName = null;
+
+    final int RC_LOCATION = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @SuppressLint("MissingPermission") // The permission is there and works, it's just android studio
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -162,6 +165,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Move the camera to Champaign
         LatLng champaign = new LatLng(40.1102396, -88.2343178);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(champaign, 12));
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Log.v(null, "cam perm granted");
+            mMap.setMyLocationEnabled(true);
+        } else {
+            Log.v(null, "cam perm not granted");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, RC_LOCATION);
+        }
 
         mMap.setOnMarkerClickListener(marker -> {
             String truckId = (String) marker.getTag();
@@ -237,4 +248,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         dialog.show();
     }
 
+    @SuppressLint("MissingPermission") // The permission is there and works, it's just android studio
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == RC_LOCATION) {
+            if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.v(null, "cam perm granted");
+                mMap.setMyLocationEnabled(true);
+            } else {
+                Toast.makeText(this, "Location access was not granted.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }
