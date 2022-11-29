@@ -58,6 +58,24 @@
       ]
     }
   },
+  "api/getVote?truck=0&user=0": {
+    "_comment": "GET how the user voted on this truck previously",
+    "status": "ok",
+    "data": {
+      "hasVoted": true,
+      "isVoteUp": false
+    }
+  },
+  "api/vote": {
+    "_comment": "POST what the user just voted for a specific truck",
+    "status": "ok",
+    "data": {
+      "user": "Illini1867",
+      "truckId": 0,
+      "hasVoted": true,
+      "isVoteUp": false
+    }
+  },
   "api/login": {
     "_comment": "POST login credentials, for the login page",
     "status": "ok",

@@ -55,7 +55,13 @@ public class TruckDetailsActivity extends AppCompatActivity {
 
     String truckId;
 
+    boolean loggedIn = false;
+    String user;
+
     boolean voted = false;
+    boolean isVoteUp;
+    String savedLastSeen; // Used in case the user changes their vote
+
     int imgIndex = 0;
     ArrayList<String> truckImages;
     final String TAG = "TruckDetailsActivity";
@@ -66,6 +72,10 @@ public class TruckDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_truck_details);
 
         truckId = getIntent().getStringExtra("truckid");
+        loggedIn = getIntent().getBooleanExtra("loggedin", false);
+        if (loggedIn) {
+            user = getIntent().getStringExtra("username");
+        }
 
         close = (FloatingActionButton) findViewById(R.id.close_details);
         close.setOnClickListener(this::onClickClose);
@@ -99,6 +109,12 @@ public class TruckDetailsActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e(null, "Exception filling in profile data: " + e);
         }
+
+        try {
+            getVoteHistory();
+        } catch (Exception e) {
+            Log.e(null, "Exception getting user vote history: " + e);
+        }
     }
 
     public void onClickClose(View v) {
@@ -129,25 +145,56 @@ public class TruckDetailsActivity extends AppCompatActivity {
     public void onClickNavigate(View v) {
         Log.v(null, "onNavigate()");
     }
+
     public void onClickThumbUp(View v) {
         if (!voted) {
             thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_24);
             updateConfidence(12.0);
             lastSeen.setText("0");
-            thumbUp.invalidate();
-            confidenceImage.invalidate();
-            lastSeen.invalidate();
             voted = true;
+            isVoteUp = true;
+        } else if (isVoteUp) {
+            thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_off_alt_24);
+            updateConfidence(8.5);
+            lastSeen.setText(savedLastSeen);
+            voted = false;
+            isVoteUp = false;
+        } else {
+            thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_24);
+            thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_off_alt_24);
+            updateConfidence(12.0);
+            lastSeen.setText("0");
+            thumbDown.invalidate();
+            voted = true;
+            isVoteUp = true;
         }
+        thumbUp.invalidate();
+        confidenceImage.invalidate();
+        lastSeen.invalidate();
     }
     public void onClickThumbDown(View v) {
         if (!voted) {
             thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_24);
             updateConfidence(5.0);
-            thumbDown.invalidate();
-            confidenceImage.invalidate();
             voted = true;
+            isVoteUp = false;
+        } else if (isVoteUp) {
+            thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_off_alt_24);
+            thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_24);
+            updateConfidence(5.0);
+            lastSeen.setText(savedLastSeen);
+            thumbUp.invalidate();
+            lastSeen.invalidate();
+            voted = true;
+            isVoteUp = false;
+        } else {
+            thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_off_alt_24);
+            updateConfidence(8.5);
+            voted = false;
+            isVoteUp = false;
         }
+        thumbDown.invalidate();
+        confidenceImage.invalidate();
     }
 
     public void fillTruckInfo() throws Exception {
@@ -159,6 +206,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
         rating.setText(String.valueOf(data.get("rating")));
         distance.setText(String.valueOf(data.get("distance")));
         lastSeen.setText(String.valueOf(data.get("lastSeen")));
+        savedLastSeen = String.valueOf(data.get("lastSeen"));
         double confidenceScore = data.getDouble("locConf");
         updateConfidence(confidenceScore);
 
@@ -208,6 +256,23 @@ public class TruckDetailsActivity extends AppCompatActivity {
         } else {
             confidenceImage.setImageResource(R.drawable.ic_baseline_wifi_24);
             confidenceImage.setColorFilter(Color.parseColor("#FF00DD00"));
+        }
+    }
+
+    public void getVoteHistory() throws Exception {
+        JSONObject jo = Utils.readJSON(getApplicationContext(),"APIs.json", TAG);
+        JSONObject profileAPI = (JSONObject) jo.get("api/getVote?truck=0&user=0");
+        JSONObject data = (JSONObject) profileAPI.get("data");
+
+        voted = data.getBoolean("hasVoted");
+        isVoteUp = data.getBoolean("isVoteUp"); // Value doesn't matter if voted is false
+
+        if (voted) {
+            if (isVoteUp) {
+                thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_24);
+            } else {
+                thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_24);
+            }
         }
     }
 

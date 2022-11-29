@@ -167,6 +167,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             String truckId = (String) marker.getTag();
             Intent intent = new Intent(this, TruckDetailsActivity.class);
             intent.putExtra("truckid", truckId);
+            if (userName != null) {
+                intent.putExtra("loggedin", true);
+                intent.putExtra("username", userName);
+            } else {
+                intent.putExtra("loggedin", false);
+                intent.putExtra("username", "Nobody");
+            }
             startActivity(intent);
             return false;
         });
