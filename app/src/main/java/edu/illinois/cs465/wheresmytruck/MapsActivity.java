@@ -28,6 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -145,7 +146,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 double lon = Double.parseDouble(data.getStringExtra("lon"));
                 String truckName = data.getStringExtra("truckname");
                 String truckId = data.getStringExtra("truckid");
-                addMarker(lat, lon, truckName, truckId);
+                addMarker(lat, lon, truckName, truckId, 30.0);
             }
         }
     }
@@ -218,9 +219,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     confidenceScore.setText(String.valueOf(confidence));
                     if (confidence < 20) {
                         confidenceScore.setTextColor(Color.parseColor("#FFFF0000"));
-                    } else if (confidence < 40) {
+                    } else if (confidence < 38) {
                         confidenceScore.setTextColor(Color.parseColor("#FFFF8800"));
-                    } else if (confidence < 60) {
+                    } else if (confidence < 62) {
                         confidenceScore.setTextColor(Color.parseColor("#FFFFFF00"));
                     } else if (confidence < 80) {
                         confidenceScore.setTextColor(Color.parseColor("#FF88FF00"));
@@ -284,9 +285,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return jo;
     }
 
-    public void addMarker(double lat, double lon, String title, String truckId) {
+    public void addMarker(double lat, double lon, String title, String truckId, double confidence) {
+        float color;
+        if (confidence < 20) {
+            color = 0f;
+        } else if (confidence < 38) {
+            color = 32f;
+        } else if (confidence < 62) {
+            color = 60f;
+        } else if (confidence < 80) {
+            color = 88f;
+        } else {
+            color = 120f;
+        }
+
         LatLng truckLocation = new LatLng(lat, lon);
-        MarkerOptions markerOptions = new MarkerOptions().position(truckLocation).title(title);
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(truckLocation)
+                .title(title)
+                .icon(BitmapDescriptorFactory.defaultMarker(color));
         Marker marker = mMap.addMarker(markerOptions);
         marker.setTag(truckId);
     }
@@ -297,7 +314,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         JSONArray trucksData = (JSONArray) trucksAPI.get("data");
         for (int i = 0; i < trucksData.length(); i++) {
             JSONObject truck = trucksData.getJSONObject(i);
-            addMarker((double) truck.get("latitude"), (double) truck.get("longitude"), (String) truck.get("truckName"), String.valueOf(truck.get("truckId")));
+            addMarker(
+                    (double) truck.get("latitude"),
+                    (double) truck.get("longitude"),
+                    (String) truck.get("truckName"),
+                    String.valueOf(truck.get("truckId")),
+                    (double) truck.get("locConf"));
         }
     }
 

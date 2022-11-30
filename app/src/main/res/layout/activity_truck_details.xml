@@ -129,12 +129,26 @@
                     android:orientation="vertical"
                     android:gravity="center">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Confidence:"
-                        android:textSize="16sp"
-                        android:gravity="center"/>
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Confidence: "
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/confidence_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="50.0"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+                    </LinearLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"

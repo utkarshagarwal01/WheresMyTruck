@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class TruckDetailsActivity extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
     TextView rating;
     TextView distance;
     Button navigate;
+    TextView confidenceNumber;
     ImageView confidenceNeedle;
     TextView lastSeen;
     Button thumbUp;
@@ -63,6 +65,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
     int imgIndex = 0;
     ArrayList<String> truckImages;
     final String TAG = "TruckDetailsActivity";
+    private static final DecimalFormat df = new DecimalFormat("00.0");
 
     double confidence;
 
@@ -93,6 +96,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
 
         navigate = (Button) findViewById(R.id.navigate_button);
         navigate.setOnClickListener(this::onClickNavigate);
+        confidenceNumber = (TextView) findViewById(R.id.confidence_number);
         confidenceNeedle = (ImageView) findViewById(R.id.confidence_needle);
         lastSeen = (TextView) findViewById(R.id.last_seen);
 
@@ -158,7 +162,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
             isVoteUp = true;
         } else if (isVoteUp) {
             thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_off_alt_24);
-            updateConfidence(38.5);
+            updateConfidence(34.5);
             lastSeen.setText(savedLastSeen);
             voted = false;
             isVoteUp = false;
@@ -174,6 +178,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
         thumbUp.invalidate();
         confidenceNeedle.invalidate();
         lastSeen.invalidate();
+        confidenceNumber.invalidate();
     }
     public void onClickThumbDown(View v) {
         if (!voted) {
@@ -192,12 +197,13 @@ public class TruckDetailsActivity extends AppCompatActivity {
             isVoteUp = false;
         } else {
             thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_off_alt_24);
-            updateConfidence(38.5);
+            updateConfidence(34.5);
             voted = false;
             isVoteUp = false;
         }
         thumbDown.invalidate();
         confidenceNeedle.invalidate();
+        confidenceNumber.invalidate();
     }
 
     public void fillTruckInfo() throws Exception {
@@ -256,6 +262,19 @@ public class TruckDetailsActivity extends AppCompatActivity {
         confidenceNeedle.setPivotX(48f);
         confidenceNeedle.setPivotY(172.8f);
         confidenceNeedle.setRotation((float) rotation);
+
+        if (confidenceScore < 20) {
+            confidenceNumber.setTextColor(Color.parseColor("#FFFF0000"));
+        } else if (confidenceScore < 38) {
+            confidenceNumber.setTextColor(Color.parseColor("#FFFF8800"));
+        } else if (confidenceScore < 62) {
+            confidenceNumber.setTextColor(Color.parseColor("#FFFFFF00"));
+        } else if (confidenceScore < 80) {
+            confidenceNumber.setTextColor(Color.parseColor("#FF88FF00"));
+        } else {
+            confidenceNumber.setTextColor(Color.parseColor("#FF00FF00"));
+        }
+        confidenceNumber.setText(df.format(confidenceScore));
     }
 
     public void getVoteHistory() throws Exception {
