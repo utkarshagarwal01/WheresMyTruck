@@ -136,11 +136,24 @@
                         android:textSize="16sp"
                         android:gravity="center"/>
 
-                    <ImageView
-                        android:id="@+id/confidence_image"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:backgroundTint="#FFDDDD00"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/confidencemeter"/>
+
+                        <ImageView
+                            android:id="@+id/confidence_needle"
+                            android:layout_width="32dp"
+                            android:layout_height="64dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/confidenceneedle"/>
+                    </RelativeLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

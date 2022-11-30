@@ -1,6 +1,5 @@
 package edu.illinois.cs465.wheresmytruck;
 
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -8,13 +7,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,13 +21,10 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class TruckDetailsActivity extends AppCompatActivity {
@@ -44,7 +38,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
     TextView rating;
     TextView distance;
     Button navigate;
-    ImageView confidenceImage;
+    ImageView confidenceNeedle;
     TextView lastSeen;
     Button thumbUp;
     Button thumbDown;
@@ -69,6 +63,8 @@ public class TruckDetailsActivity extends AppCompatActivity {
     int imgIndex = 0;
     ArrayList<String> truckImages;
     final String TAG = "TruckDetailsActivity";
+
+    double confidence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +93,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
 
         navigate = (Button) findViewById(R.id.navigate_button);
         navigate.setOnClickListener(this::onClickNavigate);
-        confidenceImage = (ImageView) findViewById(R.id.confidence_image);
+        confidenceNeedle = (ImageView) findViewById(R.id.confidence_needle);
         lastSeen = (TextView) findViewById(R.id.last_seen);
 
         thumbUp = (Button) findViewById(R.id.thumb_up);
@@ -156,39 +152,39 @@ public class TruckDetailsActivity extends AppCompatActivity {
     public void onClickThumbUp(View v) {
         if (!voted) {
             thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_24);
-            updateConfidence(12.0);
+            updateConfidence(66.0);
             lastSeen.setText("0");
             voted = true;
             isVoteUp = true;
         } else if (isVoteUp) {
             thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_off_alt_24);
-            updateConfidence(8.5);
+            updateConfidence(38.5);
             lastSeen.setText(savedLastSeen);
             voted = false;
             isVoteUp = false;
         } else {
             thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_24);
             thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_off_alt_24);
-            updateConfidence(12.0);
+            updateConfidence(66.0);
             lastSeen.setText("0");
             thumbDown.invalidate();
             voted = true;
             isVoteUp = true;
         }
         thumbUp.invalidate();
-        confidenceImage.invalidate();
+        confidenceNeedle.invalidate();
         lastSeen.invalidate();
     }
     public void onClickThumbDown(View v) {
         if (!voted) {
             thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_24);
-            updateConfidence(5.0);
+            updateConfidence(12.2);
             voted = true;
             isVoteUp = false;
         } else if (isVoteUp) {
             thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_off_alt_24);
             thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_24);
-            updateConfidence(5.0);
+            updateConfidence(12.2);
             lastSeen.setText(savedLastSeen);
             thumbUp.invalidate();
             lastSeen.invalidate();
@@ -196,12 +192,12 @@ public class TruckDetailsActivity extends AppCompatActivity {
             isVoteUp = false;
         } else {
             thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_off_alt_24);
-            updateConfidence(8.5);
+            updateConfidence(38.5);
             voted = false;
             isVoteUp = false;
         }
         thumbDown.invalidate();
-        confidenceImage.invalidate();
+        confidenceNeedle.invalidate();
     }
 
     public void fillTruckInfo() throws Exception {
@@ -216,8 +212,8 @@ public class TruckDetailsActivity extends AppCompatActivity {
         lon = (double) data.get("longitude");
         lastSeen.setText(String.valueOf(data.get("lastSeen")));
         savedLastSeen = String.valueOf(data.get("lastSeen"));
-        double confidenceScore = data.getDouble("locConf");
-        updateConfidence(confidenceScore);
+        confidence = data.getDouble("locConf");
+        updateConfidence(confidence);
 
         JSONArray truckPics = (JSONArray) data.get("truckPics");
         truckImages = new ArrayList<>();
@@ -256,16 +252,10 @@ public class TruckDetailsActivity extends AppCompatActivity {
     }
 
     public void updateConfidence(double confidenceScore) {
-        if (confidenceScore < 7.0) {
-            confidenceImage.setImageResource(R.drawable.ic_baseline_wifi_1_bar_24);
-            confidenceImage.setColorFilter(Color.parseColor("#FFDD0000"));
-        } else if (confidenceScore < 10.0) {
-            confidenceImage.setImageResource(R.drawable.ic_baseline_wifi_2_bar_24);
-            confidenceImage.setColorFilter(Color.parseColor("#FFDDDD00"));
-        } else {
-            confidenceImage.setImageResource(R.drawable.ic_baseline_wifi_24);
-            confidenceImage.setColorFilter(Color.parseColor("#FF00DD00"));
-        }
+        double rotation = (confidenceScore / 100) * 180 - 90;
+        confidenceNeedle.setPivotX(48f);
+        confidenceNeedle.setPivotY(172.8f);
+        confidenceNeedle.setRotation((float) rotation);
     }
 
     public void getVoteHistory() throws Exception {

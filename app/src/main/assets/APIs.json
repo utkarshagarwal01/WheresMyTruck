@@ -32,7 +32,7 @@
       "latitude": 40.1127105,
       "rating": 4.0,
       "distance": 12.0,
-      "locConf": 8.5,
+      "locConf": 38.5,
       "lastSeen": 12324,
       "truckPics": [],
       "foodPics": [
@@ -62,7 +62,7 @@
     "_comment": "GET how the user voted on this truck previously",
     "status": "ok",
     "data": {
-      "hasVoted": true,
+      "hasVoted": false,
       "isVoteUp": false
     }
   },
