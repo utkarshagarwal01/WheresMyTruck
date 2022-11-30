@@ -9,7 +9,7 @@
         "truckName": "Burrito King",
         "longitude": -88.2276674,
         "latitude": 40.1127105,
-        "locConf": 8.5,
+        "locConf": 86.5,
         "lastSeen": 1232454
       },
       {
@@ -17,7 +17,7 @@
         "truckName": "Fernando's",
         "longitude": -88.2288938,
         "latitude": 40.1099063,
-        "locConf": 8.5,
+        "locConf": 18.5,
         "lastSeen": 1232454
       }
     ]

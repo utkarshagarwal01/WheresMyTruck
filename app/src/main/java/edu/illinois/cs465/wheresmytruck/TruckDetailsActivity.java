@@ -107,7 +107,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
         try {
             fillTruckInfo();
         } catch (Exception e) {
-            Log.e(TAG, "Exception filling in profile data: " + e);
+            Log.e(TAG, "Exception getting truck details: " + e);
         }
 
         try {
