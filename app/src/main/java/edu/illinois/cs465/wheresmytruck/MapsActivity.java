@@ -12,17 +12,23 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,8 +40,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import edu.illinois.cs465.wheresmytruck.databinding.ActivityMapsBinding;
 
@@ -138,7 +146,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 double lon = Double.parseDouble(data.getStringExtra("lon"));
                 String truckName = data.getStringExtra("truckname");
                 String truckId = data.getStringExtra("truckid");
-                addMarker(lat, lon, truckName, truckId);
+                addMarker(lat, lon, truckName, truckId, 30.0);
             }
         }
     }
@@ -174,7 +182,72 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, RC_LOCATION);
         }
 
-        mMap.setOnMarkerClickListener(marker -> {
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Nullable
+            @Override
+            public View getInfoWindow(@NonNull Marker marker) {
+                return null;
+            }
+
+            @Nullable
+            @Override
+            public View getInfoContents(@NonNull Marker marker) {
+                View v = getLayoutInflater().inflate(R.layout.truck_info_window, null);
+                String truckId = (String) marker.getTag();
+
+                JSONObject jo = Utils.readJSON(getApplicationContext(),"APIs.json", TAG);
+                JSONObject data;
+                try {
+                    JSONObject profileAPI = (JSONObject) jo.get("api/getTruck?id=0");
+                    data = (JSONObject) profileAPI.get("data");
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception getting truck details for preview: " + e);
+                    return null;
+                }
+                ImageView truckPic = v.findViewById(R.id.image);
+                TextView truckName = v.findViewById(R.id.name);
+                TextView confidenceScore = v.findViewById(R.id.confidence_value);
+
+                try {
+                    JSONArray truckPics = (JSONArray) data.get("truckPics");
+                    if (truckPics.length() > 0) {
+                        truckPic.setImageBitmap(getImageBitmap(truckPics.getString(0)));
+                    }
+
+                    truckName.setText(data.getString("truckName"));
+                    double confidence = data.getDouble("locConf");
+                    confidenceScore.setText(String.valueOf(confidence));
+                    if (confidence < 20) {
+                        confidenceScore.setTextColor(Color.parseColor("#FFFF0000"));
+                    } else if (confidence < 38) {
+                        confidenceScore.setTextColor(Color.parseColor("#FFFF8800"));
+                    } else if (confidence < 62) {
+                        confidenceScore.setTextColor(Color.parseColor("#FFFFFF00"));
+                    } else if (confidence < 80) {
+                        confidenceScore.setTextColor(Color.parseColor("#FF88FF00"));
+                    } else {
+                        confidenceScore.setTextColor(Color.parseColor("#FF00FF00"));
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception getting truck details for preview: " + e);
+                    return null;
+                }
+                return v;
+            }
+
+            public Bitmap getImageBitmap(String location) {
+                Context context = getApplicationContext();
+                try (FileInputStream fis = context.openFileInput(location)) {
+                    Bitmap bmTruckPicTest = BitmapFactory.decodeStream(fis);
+                    return bmTruckPicTest;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        });
+
+        mMap.setOnInfoWindowClickListener(marker -> {
             String truckId = (String) marker.getTag();
             Intent intent = new Intent(this, TruckDetailsActivity.class);
             intent.putExtra("truckid", truckId);
@@ -186,7 +259,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 intent.putExtra("username", "Nobody");
             }
             startActivity(intent);
-            return false;
         });
     }
 
@@ -213,9 +285,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return jo;
     }
 
-    public void addMarker(double lat, double lon, String title, String truckId) {
+    public void addMarker(double lat, double lon, String title, String truckId, double confidence) {
+        float color;
+        if (confidence < 20) {
+            color = 0f;
+        } else if (confidence < 38) {
+            color = 32f;
+        } else if (confidence < 62) {
+            color = 60f;
+        } else if (confidence < 80) {
+            color = 88f;
+        } else {
+            color = 120f;
+        }
+
         LatLng truckLocation = new LatLng(lat, lon);
-        MarkerOptions markerOptions = new MarkerOptions().position(truckLocation).title(title);
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(truckLocation)
+                .title(title)
+                .icon(BitmapDescriptorFactory.defaultMarker(color));
         Marker marker = mMap.addMarker(markerOptions);
         marker.setTag(truckId);
     }
@@ -226,7 +314,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         JSONArray trucksData = (JSONArray) trucksAPI.get("data");
         for (int i = 0; i < trucksData.length(); i++) {
             JSONObject truck = trucksData.getJSONObject(i);
-            addMarker((double) truck.get("latitude"), (double) truck.get("longitude"), (String) truck.get("truckName"), String.valueOf(truck.get("truckId")));
+            addMarker(
+                    (double) truck.get("latitude"),
+                    (double) truck.get("longitude"),
+                    (String) truck.get("truckName"),
+                    String.valueOf(truck.get("truckId")),
+                    (double) truck.get("locConf"));
         }
     }
 
