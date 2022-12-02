@@ -55,8 +55,8 @@ public class AddPicToTruckActivity extends AppCompatActivity {
 
         context = getApplicationContext();
         Bundle extras = getIntent().getExtras();
-        if (extras != null && extras.getString("truckId") != null) {
-            truckId = Integer.parseInt((extras.getString("truckId")));
+        if (extras != null && extras.get("truckId") != null) {
+            truckId = (int) extras.get("truckId");
         }
         JSONObject fakeBE = Utils.readJSON(context, "APIs.json", "ReportTruck reading");
         try {
@@ -122,12 +122,21 @@ public class AddPicToTruckActivity extends AppCompatActivity {
     public void changePicType(View v) {
         if (v.getId() == R.id.btn_type_truck) {
             picType = "pic";
+            btnTypeTruck.setAlpha(1);
+            btnTypeMenu.setAlpha(.4f);
+            btnTypeFood.setAlpha(.4f);
         }
         if (v.getId() == R.id.btn_type_menu) {
             picType = "menu";
+            btnTypeTruck.setAlpha(.4f);
+            btnTypeMenu.setAlpha(1);
+            btnTypeFood.setAlpha(.4f);
         }
         if (v.getId() == R.id.btn_type_food) {
             picType = "food";
+            btnTypeTruck.setAlpha(.4f);
+            btnTypeMenu.setAlpha(.4f);
+            btnTypeFood.setAlpha(1);
         }
     }
 
