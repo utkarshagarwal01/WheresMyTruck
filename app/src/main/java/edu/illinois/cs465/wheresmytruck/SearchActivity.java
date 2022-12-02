@@ -39,7 +39,7 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Search...");
 
         context = getApplicationContext();
-        JSONObject jo = Utils.readJSON(context, mainAPIJSONFile, TAG, true);
+        JSONObject jo = Utils.readJSON(context, mainAPIJSONFile, TAG);
         Utils.writeJSONToContext(context, mainAPIJSONFile, TAG, jo);
 
         listView = (ListView) findViewById(R.id.ListView);
