@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -86,14 +87,16 @@ public class SearchActivity extends AppCompatActivity {
 
     public ArrayList<Truck> addTrucks() throws Exception {
         JSONObject jo = Utils.readJSON(context, mainAPIJSONFile, TAG);
-        JSONObject trucksAPI = (JSONObject) jo.get("api/trucks");
-        JSONArray trucksData = (JSONArray) trucksAPI.get("data");
+        JSONArray trucksData = (JSONArray) jo.get("api/getTrucks");
+        //JSONArray trucksData = (JSONArray) trucksAPI.get("data");
         ArrayList<Truck> trucks = new ArrayList<>();
         for (int i = 0; i < trucksData.length(); i++) {
             JSONObject truck = trucksData.getJSONObject(i);
             Truck t = new Truck();
             t.setTruckName((String) truck.get("truckName"));
             t.setTruckId((int) truck.get("truckId"));
+            t.setConfidence((int) truck.get("locConf"));
+            t.setCoordinates(new LatLng((double) truck.get("latitude"), (double) truck.get("longitude")));
             trucks.add(t);
         }
         return trucks;
