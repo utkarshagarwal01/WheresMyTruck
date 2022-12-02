@@ -11,8 +11,8 @@
       "locConf": 86.5,
       "lastSeen": 12324,
       "truckPics": [],
-      "foodPics": ["food1", "food2", "food3"],
-      "menuPics": ["menu1"],
+      "foodPics": [],
+      "menuPics": [],
       "userReports": [
         {
           "reportId": 2,
@@ -34,8 +34,8 @@
       "locConf": 54.5,
       "lastSeen": 1224,
       "truckPics": [],
-      "foodPics": ["food4", "food5", "food6"],
-      "menuPics": ["menu1"],
+      "foodPics": [],
+      "menuPics": [],
       "userReports": [
         {
           "reportId": 4,
