@@ -239,8 +239,11 @@ public class TruckDetailsActivity extends AppCompatActivity {
         for (int i = 0; i < menuPics.length(); i++) {
             ImageButton menuImg = new ImageButton(this);
             String img = menuPics.getString(i);
-            menuImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
-//            menuImg.setImageBitmap(getImageBitmap(img));  Use this when we implement the ability to submit these
+            if (getImageBitmap(img) != null) {
+                menuImg.setImageBitmap(getImageBitmap(img));
+            } else {
+                menuImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
+            }
             menuImg.setScaleType(ImageButton.ScaleType.CENTER_INSIDE);
             menuImg.setAdjustViewBounds(true);
             menuImages.addView(menuImg);
@@ -252,8 +255,11 @@ public class TruckDetailsActivity extends AppCompatActivity {
         for (int i = 0; i < foodPics.length(); i++) {
             ImageButton foodImg = new ImageButton(this);
             String img = foodPics.getString(i);
-            foodImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
-//            foodImg.setImageBitmap(getImageBitmap(img));  Use this when we implement the ability to submit these
+            if (getImageBitmap(img) != null) {
+                foodImg.setImageBitmap(getImageBitmap(img));
+            } else {
+                foodImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
+            }
             foodImg.setScaleType(ImageButton.ScaleType.CENTER_INSIDE);
             foodImg.setAdjustViewBounds(true);
             foodImages.addView(foodImg);
@@ -304,7 +310,6 @@ public class TruckDetailsActivity extends AppCompatActivity {
             Bitmap bmTruckPicTest = BitmapFactory.decodeStream(fis);
             return bmTruckPicTest;
         } catch (IOException e) {
-            e.printStackTrace();
             return null;
         }
     }
