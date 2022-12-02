@@ -73,6 +73,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_truck_details);
+        getSupportActionBar().setTitle("Truck Details");
 
         truckId = getIntent().getStringExtra("truckid");
         loggedIn = getIntent().getBooleanExtra("loggedin", false);

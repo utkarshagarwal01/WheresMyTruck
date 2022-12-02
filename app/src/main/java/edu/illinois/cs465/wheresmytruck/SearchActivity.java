@@ -29,6 +29,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        getSupportActionBar().setTitle("Search...");
 
         listView = (ListView) findViewById(R.id.ListView);
         searchView = (SearchView) findViewById(R.id.SearchView);
