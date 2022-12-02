@@ -87,7 +87,7 @@ public class SearchActivity extends AppCompatActivity {
 
     public ArrayList<Truck> addTrucks() throws Exception {
         JSONObject jo = Utils.readJSON(context, mainAPIJSONFile, TAG);
-        JSONArray trucksData = (JSONArray) jo.get("api/getTrucks");
+        JSONArray trucksData = (JSONArray) jo.get("api/getTruck");
         //JSONArray trucksData = (JSONArray) trucksAPI.get("data");
         ArrayList<Truck> trucks = new ArrayList<>();
         for (int i = 0; i < trucksData.length(); i++) {
@@ -95,7 +95,7 @@ public class SearchActivity extends AppCompatActivity {
             Truck t = new Truck();
             t.setTruckName((String) truck.get("truckName"));
             t.setTruckId((int) truck.get("truckId"));
-            t.setConfidence((int) truck.get("locConf"));
+            t.setConfidence((double) truck.get("locConf"));
             t.setCoordinates(new LatLng((double) truck.get("latitude"), (double) truck.get("longitude")));
             trucks.add(t);
         }
