@@ -53,7 +53,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
     double lat;
     double lon;
 
-    String truckId;
+    int truckId;
 
     boolean loggedIn = false;
     String user;
@@ -75,7 +75,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_truck_details);
         getSupportActionBar().setTitle("Truck Details");
 
-        truckId = getIntent().getStringExtra("truckid");
+        truckId = Integer.parseInt(getIntent().getStringExtra("truckid"));
         loggedIn = getIntent().getBooleanExtra("loggedin", false);
         if (loggedIn) {
             user = getIntent().getStringExtra("username");
@@ -209,8 +209,8 @@ public class TruckDetailsActivity extends AppCompatActivity {
 
     public void fillTruckInfo() throws Exception {
         JSONObject jo = Utils.readJSON(getApplicationContext(),"APIs.json", TAG);
-        JSONObject profileAPI = (JSONObject) jo.get("api/getTruck?id=0");
-        JSONObject data = (JSONObject) profileAPI.get("data");
+        JSONArray trucks = (JSONArray) jo.get("api/getTruck");
+        JSONObject data = (JSONObject) trucks.get(truckId);
 
         truckName.setText((String) data.get("truckName"));
         rating.setText(String.valueOf(data.get("rating")));
@@ -271,7 +271,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
         } else if (confidenceScore < 38) {
             confidenceNumber.setTextColor(Color.parseColor("#FFFF8800"));
         } else if (confidenceScore < 62) {
-            confidenceNumber.setTextColor(Color.parseColor("#FFFFFF00"));
+            confidenceNumber.setTextColor(Color.parseColor("#FF999900"));
         } else if (confidenceScore < 80) {
             confidenceNumber.setTextColor(Color.parseColor("#FF88FF00"));
         } else {

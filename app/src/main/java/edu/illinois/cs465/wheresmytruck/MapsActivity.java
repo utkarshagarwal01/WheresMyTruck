@@ -193,13 +193,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public View getInfoContents(@NonNull Marker marker) {
                 View v = getLayoutInflater().inflate(R.layout.truck_info_window, null);
-                String truckId = (String) marker.getTag();
+                int truckId = Integer.parseInt((String) marker.getTag());
 
                 JSONObject jo = Utils.readJSON(getApplicationContext(),"APIs.json", TAG);
                 JSONObject data;
                 try {
-                    JSONObject profileAPI = (JSONObject) jo.get("api/getTruck?id=0");
-                    data = (JSONObject) profileAPI.get("data");
+                    JSONArray trucks = (JSONArray) jo.get("api/getTruck");
+                    data = (JSONObject) trucks.get(truckId);
                 } catch (Exception e) {
                     Log.e(TAG, "Exception getting truck details for preview: " + e);
                     return null;
@@ -224,7 +224,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     } else if (confidence < 38) {
                         confidenceScore.setTextColor(Color.parseColor("#FFFF8800"));
                     } else if (confidence < 62) {
-                        confidenceScore.setTextColor(Color.parseColor("#FFFFFF00"));
+                        confidenceScore.setTextColor(Color.parseColor("#FF999900"));
                     } else if (confidence < 80) {
                         confidenceScore.setTextColor(Color.parseColor("#FF88FF00"));
                     } else {
@@ -312,8 +312,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void addTruckMarkers() throws Exception {
         JSONObject jo = Utils.readJSON(context, mainAPIJSONFile, TAG);
-        JSONObject trucksAPI = (JSONObject) jo.get("api/trucks");
-        JSONArray trucksData = (JSONArray) trucksAPI.get("data");
+        JSONArray trucksData = (JSONArray) jo.get("api/getTruck");
         for (int i = 0; i < trucksData.length(); i++) {
             JSONObject truck = trucksData.getJSONObject(i);
             addMarker(
