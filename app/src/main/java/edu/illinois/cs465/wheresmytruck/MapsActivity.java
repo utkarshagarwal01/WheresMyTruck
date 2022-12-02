@@ -212,6 +212,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     JSONArray truckPics = (JSONArray) data.get("truckPics");
                     if (truckPics.length() > 0) {
                         truckPic.setImageBitmap(getImageBitmap(truckPics.getString(0)));
+                    } else {
+                        truckPic.setImageResource(R.drawable.defaulttruckimage);
                     }
 
                     truckName.setText(data.getString("truckName"));

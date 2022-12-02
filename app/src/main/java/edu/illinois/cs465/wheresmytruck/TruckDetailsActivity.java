@@ -229,6 +229,8 @@ public class TruckDetailsActivity extends AppCompatActivity {
         }
         if (truckImages.size() > 0) {
             truckPhoto.setImageBitmap(getImageBitmap(truckImages.get(0)));
+        } else {
+            truckPhoto.setImageResource(R.drawable.defaulttruckimage);
         }
 
         JSONArray menuPics = (JSONArray) data.get("menuPics");
