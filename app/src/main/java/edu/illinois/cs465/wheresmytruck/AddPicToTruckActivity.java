@@ -29,6 +29,7 @@ public class AddPicToTruckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pic_to_truck);
+        getSupportActionBar().setTitle("Add a picture?");
 
         btnClose = (FloatingActionButton) findViewById(R.id.btn_close_add_pic);
         btnClose.setOnClickListener(this::onClose);

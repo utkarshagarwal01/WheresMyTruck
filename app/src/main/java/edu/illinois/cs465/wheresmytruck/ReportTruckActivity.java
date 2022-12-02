@@ -51,6 +51,7 @@ public class ReportTruckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_truck);
+        getSupportActionBar().setTitle("Report A Truck?");
         context = getApplicationContext();
 
         etTruckName = (EditText) findViewById(R.id.et_add_truck_name);
