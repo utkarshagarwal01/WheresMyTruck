@@ -28,7 +28,6 @@ public class SearchActivity extends AppCompatActivity {
     private final String TAG = "SearchActivity";
     private final String mainAPIJSONFile = "APIs.json";
 
-    TrucksAdapter trucksAdapter;
     ArrayAdapter<Truck> adapter;
     ArrayList<Truck> trucks;
 
@@ -52,8 +51,6 @@ public class SearchActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-       // trucksAdapter = new TrucksAdapter(this, trucks);
 
 
         adapter = new ArrayAdapter<Truck>(this, android.R.layout.simple_list_item_1, trucks);
