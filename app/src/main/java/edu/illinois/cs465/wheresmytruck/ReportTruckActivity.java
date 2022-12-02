@@ -111,7 +111,7 @@ public class ReportTruckActivity extends AppCompatActivity {
         newTruck.put("latitude", lat);
         newTruck.put("rating", 6.0);
         newTruck.put("distance", 15);
-        newTruck.put("locConf", 50);
+        newTruck.put("locConf", 50.1);
         newTruck.put("lastSeen", 0);
 
         JSONArray truckPics = new JSONArray();
@@ -145,8 +145,9 @@ public class ReportTruckActivity extends AppCompatActivity {
             // for now:
             // Add new truck in api/getTrucks, update APIs.json locally,
             // so truck details page can show these pics
+            int newTruckId = -1;
             try {
-                int newTruckId = getNewTruckID();
+                newTruckId = getNewTruckID();
 
                 String imageFilename = "truck"+ newTruckId+ "pic0.jpg";
                 Utils.writeImage(context, imageFilename, TAG, bmTruckPic);
@@ -165,7 +166,7 @@ public class ReportTruckActivity extends AppCompatActivity {
             result.putExtra("lat", String.valueOf(lat));
             result.putExtra("lon", String.valueOf(lon));
             result.putExtra("truckname", truckName);
-            result.putExtra("truckid", "12");
+            result.putExtra("truckid", String.valueOf(newTruckId));
             setResult(RESULT_OK, result);
             finish();
         }
