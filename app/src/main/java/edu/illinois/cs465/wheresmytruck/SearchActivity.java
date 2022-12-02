@@ -60,8 +60,9 @@ public class SearchActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
-                Truck t = trucks.get(position);
+            public void onItemClick(AdapterView<?> parent, View v, int position, long arg3) {
+                Truck t = (Truck) parent.getItemAtPosition(position);
+                //Truck t = trucks.get(position);
                 openTruckDetails(t.getTruckId());
             }
         });
