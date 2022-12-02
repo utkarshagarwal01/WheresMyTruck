@@ -27,9 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 public class ReportTruckActivity extends AppCompatActivity {
     private Context context;
     EditText etTruckName;
@@ -100,6 +97,35 @@ public class ReportTruckActivity extends AppCompatActivity {
         finish();
     }
 
+    private int getNewTruckID() throws JSONException {
+        JSONObject api = Utils.readJSON(context, "APIs.json", "ReportTruck reading for getTruck length");
+        JSONArray trucks = (JSONArray)api.get("api/getTruck");
+        return trucks.length();
+    }
+
+    private JSONObject getNewTruckObject(int newTruckId, String imageFilename) throws JSONException {
+        JSONObject newTruck = new JSONObject();
+        newTruck.put("truckId", newTruckId);
+        newTruck.put("truckName", etTruckName.getText().toString());
+        newTruck.put("longitude", lon);
+        newTruck.put("latitude", lat);
+        newTruck.put("rating", 6.0);
+        newTruck.put("distance", 15);
+        newTruck.put("locConf", 50);
+        newTruck.put("lastSeen", 0);
+
+        JSONArray truckPics = new JSONArray();
+        truckPics.put(imageFilename);
+        newTruck.put("truckPics", truckPics);
+
+        JSONArray foodPics = new JSONArray();
+        JSONArray menuPics = new JSONArray();
+        newTruck.put("foodPics", foodPics);
+        newTruck.put("menuPics", menuPics);
+
+        return newTruck;
+    }
+
     // check all fields, save to storage (for now), return to home screen
     public void onSubmit(View v) {
         String truckName = etTruckName.getText().toString();
@@ -117,20 +143,20 @@ public class ReportTruckActivity extends AppCompatActivity {
             // FE then knows which truck (truckId, truckName) this submission belongs to
 
             // for now:
-            // pretend this submission is for truckId=0, update APIs.json locally,
+            // Add new truck in api/getTrucks, update APIs.json locally,
             // so truck details page can show these pics
-            String filename = "truck0pic0.jpg";
-            Utils.writeImage(context, filename, TAG, bmTruckPic);
             try {
-                // todo test write JSON utility function
-                JSONObject fakeBE = Utils.readJSON(context, "APIs.json", "ReportTruck reading");
-                JSONArray truckPics = (JSONArray) ((JSONObject) ((JSONObject) fakeBE.get("api/getTruck?id=0")).get("data")).get("truckPics");
-                truckPics.put(filename);
-                Utils.writeJSONToContext(context, "APIs.json", "ReportTruck writing", fakeBE);
-                // todo testing writeJSON() correctness, to be removed
-                JSONObject fakeBETest = Utils.readJSON(context, "APIs.json", "ReportTruck reading");
-                JSONArray truckPicsTest = (JSONArray) ((JSONObject) ((JSONObject) fakeBETest.get("api/getTruck?id=0")).get("data")).get("truckPics");
-                assert truckPicsTest.length() > 0;
+                int newTruckId = getNewTruckID();
+
+                String imageFilename = "truck"+ newTruckId+ "pic0.jpg";
+                Utils.writeImage(context, imageFilename, TAG, bmTruckPic);
+
+                JSONObject newTruck = getNewTruckObject(newTruckId, imageFilename);
+                //write new truck to APIs.json
+                JSONObject api = Utils.readJSON(context, "APIs.json", "ReportTruck reading to insert new truck");
+                JSONArray trucks = (JSONArray)api.get("api/getTruck");
+                trucks.put(newTruck);
+                Utils.writeJSONToContext(context, "APIs.json", "ReportTruck writing", api);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
