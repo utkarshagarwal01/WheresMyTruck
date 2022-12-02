@@ -104,7 +104,7 @@ public class SearchActivity extends AppCompatActivity {
 
     public void openTruckDetails(int truckId) {
         Intent intent = new Intent(this, TruckDetailsActivity.class);
-        intent.putExtra("truckid", truckId);
+        intent.putExtra("truckid", String.valueOf(truckId));
 //        if (userName != null) {
 //            intent.putExtra("loggedin", true);
 //            intent.putExtra("username", userName);
