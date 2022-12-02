@@ -1,38 +1,14 @@
 {
   "_comment": "standard API response structure",
-  "api/trucks": {
-    "_comment": "GET an array of all trucks, for the home page and truck search page",
-    "status": "ok",
-    "data": [
-      {
-        "truckId": 0,
-        "truckName": "Burrito King",
-        "longitude": -88.2276674,
-        "latitude": 40.1127105,
-        "locConf": 86.5,
-        "lastSeen": 1232454
-      },
-      {
-        "truckId": 1,
-        "truckName": "Fernando's",
-        "longitude": -88.2288938,
-        "latitude": 40.1099063,
-        "locConf": 18.5,
-        "lastSeen": 1232454
-      }
-    ]
-  },
-  "api/getTruck?id=0": {
-    "_comment": "GET specifics for one truck, for the truck details page",
-    "status": "ok",
-    "data": {
+  "api/getTruck": [
+    {
       "truckId": 0,
       "truckName": "Burrito King",
       "longitude": -88.2276674,
       "latitude": 40.1127105,
       "rating": 4.0,
       "distance": 12.0,
-      "locConf": 34.5,
+      "locConf": 86.5,
       "lastSeen": 12324,
       "truckPics": [],
       "foodPics": [
@@ -43,9 +19,7 @@
         "food5",
         "food6"
       ],
-      "menuPics": [
-        "menu1"
-      ],
+      "menuPics": [],
       "userReports": [
         {
           "reportId": 2,
@@ -56,8 +30,31 @@
           "userId": 5
         }
       ]
+    },
+    {
+      "truckId": 1,
+      "truckName": "Fernando's",
+      "longitude": -88.2288938,
+      "latitude": 40.1099063,
+      "rating": 4.0,
+      "distance": 22.0,
+      "locConf": 54.5,
+      "lastSeen": 1224,
+      "truckPics": [],
+      "foodPics": [],
+      "menuPics": [],
+      "userReports": [
+        {
+          "reportId": 4,
+          "userId": 3
+        },
+        {
+          "reportId": 5,
+          "userId": 5
+        }
+      ]
     }
-  },
+  ],
   "api/getVote?truck=0&user=0": {
     "_comment": "GET how the user voted on this truck previously",
     "status": "ok",

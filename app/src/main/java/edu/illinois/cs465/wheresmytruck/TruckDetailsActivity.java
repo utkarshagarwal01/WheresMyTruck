@@ -53,7 +53,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
     double lat;
     double lon;
 
-    String truckId;
+    int truckId;
 
     boolean loggedIn = false;
     String user;
@@ -75,7 +75,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_truck_details);
         getSupportActionBar().setTitle("Truck Details");
 
-        truckId = getIntent().getStringExtra("truckid");
+        truckId = Integer.parseInt(getIntent().getStringExtra("truckid"));
         loggedIn = getIntent().getBooleanExtra("loggedin", false);
         if (loggedIn) {
             user = getIntent().getStringExtra("username");
@@ -130,6 +130,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
     public void onClickAddPhoto(View v) {
         Log.v(TAG, "clicked add photo");
         Intent intent = new Intent(this, AddPicToTruckActivity.class);
+        intent.putExtra("truckId", truckId);
         startActivity(intent);
     }
 
@@ -209,8 +210,8 @@ public class TruckDetailsActivity extends AppCompatActivity {
 
     public void fillTruckInfo() throws Exception {
         JSONObject jo = Utils.readJSON(getApplicationContext(),"APIs.json", TAG);
-        JSONObject profileAPI = (JSONObject) jo.get("api/getTruck?id=0");
-        JSONObject data = (JSONObject) profileAPI.get("data");
+        JSONArray trucks = (JSONArray) jo.get("api/getTruck");
+        JSONObject data = (JSONObject) trucks.get(truckId);
 
         truckName.setText((String) data.get("truckName"));
         rating.setText(String.valueOf(data.get("rating")));
@@ -229,6 +230,8 @@ public class TruckDetailsActivity extends AppCompatActivity {
         }
         if (truckImages.size() > 0) {
             truckPhoto.setImageBitmap(getImageBitmap(truckImages.get(0)));
+        } else {
+            truckPhoto.setImageResource(R.drawable.defaulttruckimage);
         }
 
         JSONArray menuPics = (JSONArray) data.get("menuPics");
@@ -236,8 +239,11 @@ public class TruckDetailsActivity extends AppCompatActivity {
         for (int i = 0; i < menuPics.length(); i++) {
             ImageButton menuImg = new ImageButton(this);
             String img = menuPics.getString(i);
-            menuImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
-//            menuImg.setImageBitmap(getImageBitmap(img));  Use this when we implement the ability to submit these
+            if (getImageBitmap(img) != null) {
+                menuImg.setImageBitmap(getImageBitmap(img));
+            } else {
+                menuImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
+            }
             menuImg.setScaleType(ImageButton.ScaleType.CENTER_INSIDE);
             menuImg.setAdjustViewBounds(true);
             menuImages.addView(menuImg);
@@ -249,8 +255,11 @@ public class TruckDetailsActivity extends AppCompatActivity {
         for (int i = 0; i < foodPics.length(); i++) {
             ImageButton foodImg = new ImageButton(this);
             String img = foodPics.getString(i);
-            foodImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
-//            foodImg.setImageBitmap(getImageBitmap(img));  Use this when we implement the ability to submit these
+            if (getImageBitmap(img) != null) {
+                foodImg.setImageBitmap(getImageBitmap(img));
+            } else {
+                foodImg.setImageResource(getResources().getIdentifier(img, "drawable", getPackageName()));
+            }
             foodImg.setScaleType(ImageButton.ScaleType.CENTER_INSIDE);
             foodImg.setAdjustViewBounds(true);
             foodImages.addView(foodImg);
@@ -269,7 +278,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
         } else if (confidenceScore < 38) {
             confidenceNumber.setTextColor(Color.parseColor("#FFFF8800"));
         } else if (confidenceScore < 62) {
-            confidenceNumber.setTextColor(Color.parseColor("#FFFFFF00"));
+            confidenceNumber.setTextColor(Color.parseColor("#FF999900"));
         } else if (confidenceScore < 80) {
             confidenceNumber.setTextColor(Color.parseColor("#FF88FF00"));
         } else {
@@ -301,7 +310,6 @@ public class TruckDetailsActivity extends AppCompatActivity {
             Bitmap bmTruckPicTest = BitmapFactory.decodeStream(fis);
             return bmTruckPicTest;
         } catch (IOException e) {
-            e.printStackTrace();
             return null;
         }
     }

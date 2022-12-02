@@ -7,6 +7,7 @@ public class Truck {
 
     private int truckId;
     private String truckName;
+    private double confidence;
     private LatLng coordinates;
     private int positiveVotes;
     private int negativeVotes;
@@ -77,6 +78,15 @@ public class Truck {
     public void setReportedUserId(int reportedUserId) {
         this.reportedUserId = reportedUserId;
     }
+
+    public double getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(double confidence) {
+        this.confidence = confidence;
+    }
+
 
     public String toString() {
         return truckName;
