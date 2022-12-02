@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:inputType="text"
-            android:text="Burrito King"
+            android:text=""
             android:enabled="false"/>
 
         <TextView

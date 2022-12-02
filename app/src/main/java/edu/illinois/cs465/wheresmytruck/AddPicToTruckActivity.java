@@ -41,6 +41,7 @@ public class AddPicToTruckActivity extends AppCompatActivity {
     FloatingActionButton btnClose;
     FloatingActionButton btnSubmit;
     int truckId = 0;  // should not have default val
+    String truckName = "BurrKing";
     String picType = "pic";
     final int PC_CAMERA = 1;
     final int RC_CAMERA = 2;
@@ -57,6 +58,12 @@ public class AddPicToTruckActivity extends AppCompatActivity {
         if (extras != null && extras.getString("truckId") != null) {
             truckId = Integer.parseInt((extras.getString("truckId")));
         }
+        JSONObject fakeBE = Utils.readJSON(context, "APIs.json", "ReportTruck reading");
+        try {
+            truckName = (String) ((JSONArray) fakeBE.get("api/getTruck")).getJSONObject(truckId).get("truckName");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         btnClose = (FloatingActionButton) findViewById(R.id.btn_close_add_pic);
         btnClose.setOnClickListener(this::onClose);
@@ -69,6 +76,8 @@ public class AddPicToTruckActivity extends AppCompatActivity {
         btnTypeMenu.setOnClickListener(this::changePicType);
         btnTypeFood = (Button) findViewById(R.id.btn_type_food);
         btnTypeFood.setOnClickListener(this::changePicType);
+        etTruckName = (EditText) findViewById(R.id.et_truck_name);
+        etTruckName.setText(truckName);
 
         btnSubmit = (FloatingActionButton) findViewById(R.id.btn_submit_add_pic);
         btnSubmit.setOnClickListener(this::onSubmit);
