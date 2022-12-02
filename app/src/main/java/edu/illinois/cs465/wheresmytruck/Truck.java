@@ -77,4 +77,8 @@ public class Truck {
     public void setReportedUserId(int reportedUserId) {
         this.reportedUserId = reportedUserId;
     }
+
+    public String toString() {
+        return truckName;
+    }
 }
