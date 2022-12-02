@@ -14,7 +14,6 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/ic_baseline_local_shipping_24"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WheresMyTruck"
         tools:targetApi="31">
@@ -84,8 +83,7 @@
 
         <activity
             android:name=".MapsActivity"
-            android:exported="true"
-            android:label="@string/title_activity_maps">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
