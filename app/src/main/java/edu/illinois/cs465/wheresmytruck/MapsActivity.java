@@ -142,11 +142,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         } else if (requestCode == 2) {
             if(resultCode == RESULT_OK && data != null) {
-                double lat = Double.parseDouble(data.getStringExtra("lat"));
-                double lon = Double.parseDouble(data.getStringExtra("lon"));
-                String truckName = data.getStringExtra("truckname");
                 String truckId = data.getStringExtra("truckid");
-                addMarker(lat, lon, truckName, truckId, 30.0);
+                JSONObject jo = Utils.readJSON(getApplicationContext(),"APIs.json", TAG);
+
+                try {
+                    JSONArray trucks = (JSONArray) jo.get("api/getTruck");
+                    JSONObject truckdata = (JSONObject) trucks.get(Integer.parseInt(truckId));
+                    double lat2 = (double) truckdata.get("latitude");
+                    double lon2 = (double) truckdata.get("longitude");
+                    double conf = (double) truckdata.get("locConf");
+                    String truckName = (String) truckdata.get("truckName");
+                    addMarker(lat2, lon2, truckName, truckId, conf);
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception in adding new marker: " + e);
+                }
             }
         }
     }

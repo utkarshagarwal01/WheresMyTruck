@@ -1,5 +1,6 @@
 package edu.illinois.cs465.wheresmytruck;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -131,7 +132,24 @@ public class TruckDetailsActivity extends AppCompatActivity {
         Log.v(TAG, "clicked add photo");
         Intent intent = new Intent(this, AddPicToTruckActivity.class);
         intent.putExtra("truckId", truckId);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                try {
+                    fillTruckInfo();
+                    menuImages.invalidate();
+                    foodImages.invalidate();
+                    truckPhoto.invalidate();
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception getting truck details: " + e);
+                }
+            }
+        }
     }
 
     public void onClickLeftArrow(View v) {
@@ -158,20 +176,20 @@ public class TruckDetailsActivity extends AppCompatActivity {
     public void onClickThumbUp(View v) {
         if (!voted) {
             thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_24);
-            updateConfidence(66.0);
+            updateConfidence(confidence + 10);
             lastSeen.setText("0");
             voted = true;
             isVoteUp = true;
         } else if (isVoteUp) {
             thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_off_alt_24);
-            updateConfidence(34.5);
+            updateConfidence(confidence - 10);
             lastSeen.setText(savedLastSeen);
             voted = false;
             isVoteUp = false;
         } else {
             thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_24);
             thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_off_alt_24);
-            updateConfidence(66.0);
+            updateConfidence(confidence + 10);
             lastSeen.setText("0");
             thumbDown.invalidate();
             voted = true;
@@ -185,13 +203,13 @@ public class TruckDetailsActivity extends AppCompatActivity {
     public void onClickThumbDown(View v) {
         if (!voted) {
             thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_24);
-            updateConfidence(12.2);
+            updateConfidence(confidence - 10);
             voted = true;
             isVoteUp = false;
         } else if (isVoteUp) {
             thumbUp.setBackgroundResource(R.drawable.ic_baseline_thumb_up_off_alt_24);
             thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_24);
-            updateConfidence(12.2);
+            updateConfidence(confidence - 10);
             lastSeen.setText(savedLastSeen);
             thumbUp.invalidate();
             lastSeen.invalidate();
@@ -199,7 +217,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
             isVoteUp = false;
         } else {
             thumbDown.setBackgroundResource(R.drawable.ic_baseline_thumb_down_off_alt_24);
-            updateConfidence(34.5);
+            updateConfidence(confidence + 10);
             voted = false;
             isVoteUp = false;
         }
@@ -234,6 +252,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
             truckPhoto.setImageResource(R.drawable.defaulttruckimage);
         }
 
+        menuImages.removeAllViews();
         JSONArray menuPics = (JSONArray) data.get("menuPics");
         menuImageList = new ArrayList<>();
         for (int i = 0; i < menuPics.length(); i++) {
@@ -250,6 +269,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
             menuImageList.add(menuImg);
         }
 
+        foodImages.removeAllViews();
         JSONArray foodPics = (JSONArray) data.get("foodPics");
         foodImageList = new ArrayList<>();
         for (int i = 0; i < foodPics.length(); i++) {
@@ -285,6 +305,17 @@ public class TruckDetailsActivity extends AppCompatActivity {
             confidenceNumber.setTextColor(Color.parseColor("#FF00FF00"));
         }
         confidenceNumber.setText(df.format(confidenceScore));
+        confidence = confidenceScore;
+        try {
+            JSONObject jo = Utils.readJSON(getApplicationContext(),"APIs.json", TAG);
+            JSONArray trucks = (JSONArray) jo.get("api/getTruck");
+            JSONObject data = (JSONObject) trucks.get(truckId);
+            data.put("locConf", confidenceScore);
+            Utils.writeJSONToContext(getApplicationContext(), "APIs.json", "ReportTruck writing", jo);
+        } catch (Exception e) {
+            Log.e(TAG, "Exception updating confidence: " + e);
+            return;
+        }
     }
 
     public void getVoteHistory() throws Exception {

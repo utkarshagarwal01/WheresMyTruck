@@ -169,6 +169,8 @@ public class AddPicToTruckActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             Toast.makeText(getBaseContext(), "You contributed a picture!", Toast.LENGTH_LONG).show();
+            Intent result = new Intent();
+            setResult(RESULT_OK, result);
             finish();
         }
     }
