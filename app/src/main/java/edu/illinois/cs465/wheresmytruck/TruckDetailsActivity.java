@@ -130,6 +130,7 @@ public class TruckDetailsActivity extends AppCompatActivity {
     public void onClickAddPhoto(View v) {
         Log.v(TAG, "clicked add photo");
         Intent intent = new Intent(this, AddPicToTruckActivity.class);
+        intent.putExtra("truckId", truckId);
         startActivity(intent);
     }
 
